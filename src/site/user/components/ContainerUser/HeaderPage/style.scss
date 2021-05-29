@@ -1,0 +1,19 @@
+.header-page{
+    .logo-search{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+        .logo{
+            img{
+                width: 150px;
+                height: auto;
+                padding: 5px 10px;
+                background: #001529;
+            }
+        }
+        .search-input{
+            width: 235px;
+        }
+    }
+}
