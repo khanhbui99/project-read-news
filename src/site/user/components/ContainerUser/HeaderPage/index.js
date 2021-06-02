@@ -19,7 +19,7 @@ const HeaderPage = () => {
                 </a>
                 <Search placeholder="input search text" allowClear onSearch={onSearch} className="search-input" />
             </div>
-            <div style={{ background: '#001529' }} className="mb-3">
+            <div style={{ background: '#3173b3c7' }} className="mb-3">
                 <div className="container-page">
                     <ItemMenu />
                 </div>

@@ -4,20 +4,20 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux"
 const dataTest = [
     {
-        name: 'nav 1',
-        path: "",
+        name: 'Home',
+        path: "/",
         isIcon: false,
         icon: ""
     },
     {
-        name: 'nav 2',
-        path: "",
+        name: 'Tab 1',
+        path: "/tab-1",
         isIcon: false,
         icon: ""
     },
     {
-        name: 'nav 3',
-        path: "",
+        name: 'Tab 2',
+        path: "/tab-2",
         isIcon: false,
         icon: ""
     }
@@ -26,7 +26,14 @@ const dataTest = [
 
 const ItemMenu = ({ activeMenu, changeActiveMenu }) => {
     return (
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[(activeMenu && activeMenu || '3')]} className="">
+        <Menu
+            mode="horizontal"
+            defaultSelectedKeys={[(activeMenu && activeMenu || '3')]}
+            className=""
+            style={{ background: 'transparent', color: '#fff' }}
+            color="#fff"
+            theme="dark"
+        >
 
             {
                 dataTest.map((item, index) => {
@@ -34,7 +41,7 @@ const ItemMenu = ({ activeMenu, changeActiveMenu }) => {
                         <Menu.Item key={index + 1}>
                             <Link
                                 onClick={() => changeActiveMenu(index + 1)}
-                                to={'/'}
+                                to={item.path}
                                 title={item.name}
                                 className=" waves-effect waves-themed"
                             >

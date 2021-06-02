@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 
 import { ThemeProvider } from "styled-components";
 import { pink } from "themes";
-import Layout from "app/Layout";
-import Admin from "site/admin";
+// import Layout from "app/Layout";
+// import Admin from "site/admin";
 import User from "site/user";
 import NoiQuy from "site/user/containers/rules";
 import Auth from "site/user/containers/auth/LoginScreen";
