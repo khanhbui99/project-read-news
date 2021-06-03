@@ -1,11 +1,21 @@
 import React from 'react'
-import { ContainerUser } from "site/user/components"
+import { ContainerUser, ContentMain, LayoutDefault, ContentSidebar } from "site/user/components"
+
 
 
 const HomeScreen = () => {
     return (
         <ContainerUser>
-            <p>Home screen</p>
+            <LayoutDefault
+                layoutContent={<ContentMain />}
+                layoutSider={<>
+                    <ContentSidebar
+                        styleMenu={1}
+                        hidenTitle={true}
+                    />
+                    <ContentSidebar styleMenu={2} />
+                </>}
+            />
         </ContainerUser>
     )
 }

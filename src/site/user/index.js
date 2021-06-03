@@ -15,6 +15,13 @@ export default function index(props) {
       }),
     },
     {
+      path: ["/chi-tiet/:id"],
+      component: Loadable({
+        loader: () => import("site/user/containers/DetailsNews"),
+        loading: Loading,
+      }),
+    },
+    {
       path: ["/about"],
       component: Loadable({
         loader: () => import("site/user/containers/About"),
