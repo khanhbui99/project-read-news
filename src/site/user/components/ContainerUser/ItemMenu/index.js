@@ -2,33 +2,18 @@ import React from "react"
 import { Menu } from "antd"
 import { Link } from "react-router-dom";
 import { connect } from "react-redux"
-const dataTest = [
-    {
-        name: 'Home',
-        path: "/",
-        isIcon: false,
-        icon: ""
-    },
-    {
-        name: 'Tab 1',
-        path: "/tab-1",
-        isIcon: false,
-        icon: ""
-    },
-    {
-        name: 'Tab 2',
-        path: "/tab-2",
-        isIcon: false,
-        icon: ""
-    }
-]
+import { isArray } from "lodash";
 
 
-const ItemMenu = ({ activeMenu, changeActiveMenu }) => {
+const ItemMenu = ({
+    indexAvtive,
+    changeActiveMenu,
+    menuBar,
+}) => {
     return (
         <Menu
             mode="horizontal"
-            defaultSelectedKeys={[(activeMenu && activeMenu || '3')]}
+            defaultSelectedKeys={[(indexAvtive && indexAvtive || '3')]}
             className=""
             style={{ background: 'transparent', color: '#fff' }}
             color="#fff"
@@ -36,12 +21,13 @@ const ItemMenu = ({ activeMenu, changeActiveMenu }) => {
         >
 
             {
-                dataTest.map((item, index) => {
+                isArray(menuBar) &&
+                menuBar.map((item, index) => {
                     return (
                         <Menu.Item key={index + 1}>
                             <Link
-                                onClick={() => changeActiveMenu(index + 1)}
-                                to={item.path}
+                                onClick={() => changeActiveMenu({ index: index + 1, active: item })}
+                                to={item.id == 0 ? '/' : `/tin-tuc/${item.slug}`}
                                 title={item.name}
                                 className=" waves-effect waves-themed"
                             >
@@ -62,11 +48,13 @@ const ItemMenu = ({ activeMenu, changeActiveMenu }) => {
 const mapStateToProps = (state) => {
     const {
         menu: {
-            activeMenu = '1',
+            indexAvtive = '1',
+            menuBar = [],
         },
     } = state;
     return {
-        activeMenu,
+        indexAvtive,
+        menuBar,
     };
 };
 const mapDispatchToProps = ({

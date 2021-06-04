@@ -19,6 +19,7 @@ import application from "./application";
 import dateTimeOnl from './dateTimeOnl';
 import workOT from './workOT'
 import menu from './menu'
+import allNews from './allNews'
 export {
   auth,
   employee,
@@ -40,5 +41,6 @@ export {
   application,
   dateTimeOnl,
   workOT,
-  menu
+  menu,
+  allNews
 };

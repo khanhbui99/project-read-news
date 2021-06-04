@@ -1,10 +1,15 @@
+import { isArray } from "lodash";
 import React from "react"
 import "./style.scss";
 
 
 const ContentSidebar = ({
     styleMenu = 2,
-    hidenTitle = false
+    hidenTitle = false,
+    item = {},
+    showItem = 4,
+    isShowFull = true,
+    isScorll = false
 }) => {
     return (
         <div className="group-siled">
@@ -12,32 +17,60 @@ const ContentSidebar = ({
                 <div className="style-1 ">
                     {
                         !hidenTitle && <h4 className="line-clamp-4 title background-default">
-                            Loạt ca nhiễm Covid mới ở Việt Nam
+                            {item.titles || ''}
                         </h4>
                     }
+                    <div
+                        className={
+                            !hidenTitle && "content pr-2 pl-2 scroll" || "content mt-2 scroll"
+                            // isScorll && 'scroll'
+                        }
+                        style={{
+                            height: isScorll && showItem * 90
+                        }}
+                    >
+                        {
+                            isArray(item.data) &&
+                            item.data.map((item2, index) => {
+                                if (!isShowFull) {
+                                    if (showItem >= (index + 1))
+                                        return (
+                                            <div key={String(index)} className="item-content flex mb-2">
+                                                <div style={{ width: 120 }}>
+                                                    <img
+                                                        src={item2.image || ''}
+                                                        className="img-hot pr-3"
+                                                        alt="ảnh tin mới"
+                                                    />
+                                                </div>
 
-                    <div className={!hidenTitle && "content pr-2 pl-2" || "content mt-2"}>
-                        <div className="item-content flex mb-2">
-                            <img
-                                src={require("resources/images/img_lights.jpg")}
-                                className="img-hot pr-3"
-                                alt="ảnh tin mới"
-                            />
-                            <p className="line-clamp-4 f-14 mb-0">
-                                ên, sau đó sư thầy đã trả lại vì bị bà Giàu đe dọa. Bà Hằng còn cho biết có một lần vợ chồng bà mang đồ từ thiện ở chùa Phước Sơn vào buổi tối thì bị giang hồ của bà Giàu bao vây. Ông Dũng phải gọi công an Đồng
-                                </p>
-                        </div>
-                        <div className="item-content flex mb-2">
-                            <img
-                                src={require("resources/images/img_lights.jpg")}
-                                className="img-hot pr-3"
-                                alt="ảnh tin mới"
-                            />
-                            <p className="line-clamp-4 f-14 mb-0">
-                                ên, sau đó sư thầy đã trả lại vì bị bà Giàu đe dọa. Bà Hằng còn cho biết có một lần vợ chồng bà mang đồ từ thiện ở chùa Phước Sơn vào buổi tối thì bị giang hồ của bà Giàu bao vây. Ông Dũng phải gọi công an Đồng
-                                </p>
-                        </div>
+                                                <p className="line-clamp-4 f-14 mb-0">
+                                                    {item2.title || ''}
+                                                </p>
+                                            </div>
+                                        )
+                                } else {
+                                    return (
+                                        <div key={String(index)} className="item-content flex mb-2">
+                                            <div style={{ width: 120 }}>
+                                                <img
+                                                    src={item2.image || ''}
+                                                    className="img-hot pr-3"
+                                                    alt="ảnh tin mới"
+                                                />
+                                            </div>
+
+                                            <p className="line-clamp-4 f-14 mb-0">
+                                                {item2.title || ''}
+                                            </p>
+                                        </div>
+                                    )
+                                }
+
+                            })
+                        }
                     </div>
+
                 </div>
 
             }

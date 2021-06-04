@@ -33,6 +33,7 @@ const App = (props) => {
   }, []);
   useEffect(() => {
     props.checkRole();
+    props.getMenuBar();
   }, []);
   const reportWindowSize = () => {
     props.updateApplication({
@@ -111,6 +112,7 @@ const mapState = (state) => ({
 const mapDispatch = ({
   auth: { onLogin, onLogout, updateData, loadWithToken, checkRole },
   application: { updateData: updateApplication },
+  menu: { getMenuBar },
 }) => ({
   onLogin,
   onLogout,
@@ -118,6 +120,7 @@ const mapDispatch = ({
   loadWithToken,
   updateApplication,
   checkRole,
+  getMenuBar
 });
 
 export default connect(mapState, mapDispatch)(App);

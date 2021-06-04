@@ -9,6 +9,8 @@ import "./styles.css";
 import "./themes/default.less";
 import "./i18n";
 import { BrowserRouter } from "react-router-dom";
+import "react-multi-carousel/lib/styles.css";
+
 // import dateUtils from "mainam-react-native-date-utils";
 // import stringUtils from "mainam-react-native-string-utils";
 import "resources/styles/app.scss";
