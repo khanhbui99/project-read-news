@@ -79,25 +79,34 @@ const ContentSidebar = ({
                 <div className="style-2 ">
 
                     <div className="title-txt mb-4">
-                        <h4 className="title mb-1">
-                            Tin mới
-                        </h4>
-                        <div className="dot_" />
+
+                        {!hidenTitle &&
+                            <>
+                                <h4 className="title mb-1">
+                                    {item.titles || ''}
+                                </h4>
+                                <div className="dot_" />
+                            </>
+                        }
+
                     </div>
 
                     <div className="content">
-                        <div className="item-content pt-2 pb-2">
-                            <label className="mb-0">Xã hội</label>
-                            <p className="line-clamp-4 f-14 mb-0">
-                                Dên, sau đó sư thầy đã trả lại vì bị bà Giàu đe dọa df sdf s fs df f sdf sf sd f .
-                                </p>
-                        </div>
-                        <div className="item-content pt-2 pb-2">
-                            <label className="mb-0">Xã hội</label>
-                            <p className="line-clamp-4 f-14 mb-0">
-                                Dên, sau đó sư thầy đã trả lại vì bị bà Giàu đe dọa df sdf s fs df f sdf sf sd f .
-                                </p>
-                        </div>
+
+                        {
+                            isArray(item.data) &&
+                            item.data.map((item2, index) => {
+                                return (
+                                    <div key={String(index)} className="item-content pt-2 pb-2">
+                                        <label className="mb-0">Xã hội</label>
+                                        <p className="line-clamp-4 f-14 mb-0">
+                                            {item2.title || ''}
+                                        </p>
+                                    </div>
+                                )
+
+                            })
+                        }
                     </div>
                 </div>
 

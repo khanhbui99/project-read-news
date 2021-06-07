@@ -2,6 +2,7 @@ import { isArray } from 'lodash';
 import React from 'react'
 import Carousel from "react-multi-carousel";
 import "./style.scss";
+import ItemShow from "../ItemShow"
 
 
 const responsive = {
@@ -47,15 +48,7 @@ const CarouselRelease = ({
         >
             {isArray(data) &&
                 data.map((item, index) => {
-                    return <div key={String(index)} className="carousel-items">
-                        <div style={{ width: '100%', }} className="pr-2">
-                            <img src={item.image || ''} alt="carousel items" />
-                            <span className='pl-1 pr-1 text-justify line-clamp-4 f-14 mt-2 mb-3 '>
-                                {item.title || ''}
-                            </span>
-                        </div>
-
-                    </div>
+                    return <ItemShow key={String(index)} item={item} />
                 })}
         </Carousel>
     )

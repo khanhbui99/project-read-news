@@ -4,7 +4,9 @@ import {
     ContentMain,
     CarouselRelease,
     LayoutDefault,
-    ContentSidebar
+    ContentSidebar,
+    ItemShow,
+    Covid19
 } from "site/user/components"
 import { connect } from "react-redux"
 import { isArray } from 'lodash'
@@ -22,6 +24,8 @@ const HomeScreen = ({
     const [activeNew, setActiveNew] = useState({})
     const [newShow, setNewShow] = useState({})
     const [dataCousel, setDataCarousel] = useState([])
+    const [dataAllNew, setDataAllNew] = useState([])
+
     useEffect(() => {
         getMenuBar();
         getNewPost()
@@ -29,6 +33,7 @@ const HomeScreen = ({
 
     useEffect(() => {
         let arr = []
+
         isArray(newPost) &&
 
             newPost.map((item, index) => {
@@ -55,7 +60,28 @@ const HomeScreen = ({
         ])
 
 
+        getIdActive(highlights, newPost, seeMore);
     }, [newPost, highlights])
+
+    const getIdActive = (highlights = [], newPost = [], seeMore = []) => {
+        let idActive = []
+        let arr = []
+
+        const idHig = highlights.map(item => item.id);
+        const idNewPost = newPost.map(item => item.id)
+        const idSeeM = seeMore.map(item => item.id);
+
+        idActive = idHig.concat(idNewPost.concat(idSeeM))
+
+        allNew.map((item) => {
+            const filer = idActive.filter(id => id == item.id)
+            if (filer.length) return
+            else arr.push(item)
+        })
+
+        setDataAllNew([...arr])
+
+    }
 
 
     return (
@@ -77,9 +103,9 @@ const HomeScreen = ({
                     />
                 </>}
             />
-            <div className="mb-5"/>
+            <div className="mb-5" />
             {
-                
+
                 dataCousel.map((item, index) => {
                     if (item.leg > 0) {
                         return <div key={String(index)} className=" mb-3">
@@ -89,9 +115,35 @@ const HomeScreen = ({
                             <CarouselRelease data={item.data || []} />
                         </div>
                     }
-                    return <div />
+                    return <div key={String(index)}/>
                 })
             }
+            <div>
+                <LayoutDefault
+                    layoutContent={
+                        isArray(dataAllNew) && dataAllNew.length &&
+                        <div>
+                            <div className="group-title mt-5">
+                                <span>{'Liên quan'}</span>
+                            </div>
+                            <div className="flex justify-between flex-wrap">
+                                {
+                                    dataAllNew.map((item, index) => {
+                                        return <div key={String(index)} style={{ width: 220, }}>
+                                            <ItemShow item={item} />
+                                        </div>
+                                    })
+                                }
+
+                            </div>
+                        </div>
+                    }
+                    layoutSider={<div className="mt-5">
+                        <Covid19 />
+                    </div>}
+                />
+            </div>
+
 
         </ContainerUser>
     )

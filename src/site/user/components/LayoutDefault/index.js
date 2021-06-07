@@ -8,11 +8,11 @@ const LayoutDefault = ({
     layoutSider
 }) => {
     return (
-        <Layout>
-            <Content className="mr-2" >
+        <Layout style={{ background: '#FFF' }}>
+            <Content className="mr-2" style={{ background: '#FFF' }}>
                 {layoutContent}
             </Content>
-            <Sider className="ml-2" width={"30%"} style={{ background: '#c8c8c8' }}>
+            <Sider className="ml-2" width={"30%"} style={{ background: '#FFF' }}>
                 {layoutSider}
             </Sider>
         </Layout>

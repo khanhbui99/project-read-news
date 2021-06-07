@@ -7,7 +7,8 @@ export default {
     highlights: [],
     seeMore: [],
     allNew: [],
-    newPost: []
+    newPost: [],
+    covid19: []
   },
 
   reducers: {
@@ -42,6 +43,18 @@ export default {
         });
       }
     },
+    getCovid19: async () => {
+      let res = await featuredNewsProvider.getCovid19();
+
+      let { data = [], success = false } = res || {};
+
+      if (success) {
+
+        dispatch.allNews.updateData({
+          covid19: data || [],
+        });
+      }
+    }
 
   }),
 };

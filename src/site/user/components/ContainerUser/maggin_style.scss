@@ -2,6 +2,10 @@
     display: flex !important;
 }
 
+.flex-wrap {
+    flex-wrap: wrap !important;
+}
+
 .align-center {
     align-items: center !important;
 }
@@ -31,7 +35,6 @@
 
 // margin
 
-
 .mr-0 {
     margin-right: 0rem;
 }
@@ -53,7 +56,6 @@
 .mr-6 {
     margin-right: 1.5rem;
 }
-
 
 .ml-0 {
     margin-left: 0rem;
@@ -77,7 +79,6 @@
     margin-left: 1.5rem;
 }
 
-
 .mt-0 {
     margin-top: 0rem;
 }
@@ -99,7 +100,6 @@
 .mt-6 {
     margin-top: 1.5rem;
 }
-
 
 .mb-0 {
     margin-bottom: 0rem;

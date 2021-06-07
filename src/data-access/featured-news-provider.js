@@ -8,5 +8,9 @@ export default {
     getNewPost() {
         let url = constants.api.new_post;
         return client.requestApi("get", url, {});
+    },
+    getCovid19() {
+        let url = constants.api.covid_19;
+        return client.requestApi("get", url, {});
     }
 };
