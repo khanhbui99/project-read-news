@@ -56,25 +56,25 @@ const HomeScreen = ({
         <ContainerUser>
             <LayoutDefault
                 layoutContent={
-                    isArray(searchData) && searchData.length &&
-                    <div className="mt-5">
-                        {
-                            showDataFollowPage.map((item, index) => {
-                                return <ItemShow key={String(index)} type={3} item={item} />
-                            })
-                        }
-                        {
-                            (searchData.length / 30) > 1 &&
-                            <Pagination
-                                className="mt-5 mb-5"
-                                defaultPageSize={30}
-                                defaultCurrent={1}
-                                total={searchData.length}
-                                onChange={val => setPage(val)}
-                            />
-                        }
+                    isArray(searchData) && searchData.length ?
+                        <div className="mt-5">
+                            {
+                                showDataFollowPage.map((item, index) => {
+                                    return <ItemShow key={String(index)} type={3} item={item} />
+                                })
+                            }
+                            {
+                                (searchData.length / 30) > 1 &&
+                                <Pagination
+                                    className="mt-5 mb-5"
+                                    defaultPageSize={30}
+                                    defaultCurrent={1}
+                                    total={searchData.length}
+                                    onChange={val => setPage(val)}
+                                />
+                            }
 
-                    </div>
+                        </div> : <h2 className="text-center mt-5">{`Không tìm thấy dữ liệu cho từ khóa ${key}!`}</h2>
                 }
                 layoutSider={
                     <div className="mt-5">
