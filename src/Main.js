@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import RouterWithPaths from "components/RouterWithPaths";
 import Admin from "@admin";
 import Auth from "@user/containers/auth/LoginScreen";
-import NoiQuy from "@user/containers/rules";
 import { connect } from "react-redux";
 import "@styles/app.scss";
 import { getState } from "redux-store/stores";
@@ -37,10 +36,6 @@ function App(props) {
     {
       path: ["/login"],
       component: Auth,
-    },
-    {
-      path: ["/noiquy"],
-      component: NoiQuy,
     },
     {
       path: ["/logout"],

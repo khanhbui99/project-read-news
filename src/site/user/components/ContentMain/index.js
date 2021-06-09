@@ -1,52 +1,38 @@
 import React from "react"
 import "./style.scss";
-
-const dataTest = [
-    {
-        id: 1,
-        image: 'a',
-        title: 'title 1',
-    },
-    {
-        id: 2,
-        image: 'b',
-        title: 'title 2',
-    },
-    {
-        id: 3,
-        image: 'c',
-        title: 'title 3',
-    },
-    {
-        id: 4,
-        image: 'd',
-        title: 'title 4',
-    },
-    {
-        id: 5,
-        image: 'e',
-        title: 'title 5',
-    },
-    {
-        id: 6,
-        image: 'f',
-        title: 'title 6',
-    },
-]
+import ItemShow from '../ItemShow'
+import { isArray } from "lodash";
+import { useHistory } from "react-router-dom";
 
 const ContentMain = ({
     isHome,
-    item = {}
+    item = {},
+    dataShowBottom = []
 }) => {
+    const history = useHistory();
+
+    const onDetailsItem = (item = {}) => {
+        history.push(`/chi-tiet/${item.slug || ''}_&&&_${item.id}`)
+    }
     return (
         <div className="group-content-main" >
             <div className="head-content pt-2">
-                <div className="text-conent">
+                <div className="text-conent" onClick={() => onDetailsItem(item)}>
                     <img
                         src={item.image || ""}
                         className="img-hot"
                         alt="ảnh chính trong ngày"
                     />
+                    {
+                        !isHome &&
+                        <div className="group-not-home" >
+                            <h4>{item.title || ''}</h4>
+                            <span className=" line-clamp-4 ">
+                                {item.content || ''}
+                            </span>
+                        </div>
+                    }
+
                     {isHome &&
                         <h2 className="text-justify line-clamp-4 pt-2">
                             {item.title || ''}
@@ -66,23 +52,17 @@ const ContentMain = ({
                 <div className="news-active flex align-center justify-between mt-4 mb-4">
 
                     {
-                        dataTest.map((item, index) => {
+                        isArray(dataShowBottom) && dataShowBottom.map((item, index) => {
                             return (
                                 <div
                                     key={String(index)}
-                                    className={index < 3 && 'item-content mr-2' || 'item-content'}
+                                    className='item-content'
                                     style={{ display: index < 4 && 'block' || 'none' }}
                                 >
-                                    <img
-                                        src={require("resources/images/img_lights.jpg")}
-                                        className="img-hot"
-                                        alt="ảnh tin mới"
-                                    />
-                                    <span className="line-clamp-4 ">
-                                        {item.title}
-                                    </span>
+                                    <ItemShow item={item} />
                                 </div>
                             )
+
                         })
                     }
 

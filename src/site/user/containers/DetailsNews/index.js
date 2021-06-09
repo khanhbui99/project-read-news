@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import {
-    useParams
-} from "react-router-dom";
-import {
     ContainerUser,
     ContentMain,
     CarouselRelease,
@@ -12,18 +9,15 @@ import {
     Covid19
 } from "site/user/components"
 import { connect } from "react-redux"
-
+import ContentItem from './ContentItem'
 
 
 const DetailsNews = ({
     getNewPost,
     newPost,
     seeMore,
-    getMenuBar
+    getMenuBar,
 }) => {
-    let { id } = useParams();
-    const [newShow, setNewShow] = useState({})
-
 
     useEffect(() => {
         getNewPost()
@@ -34,9 +28,7 @@ const DetailsNews = ({
         <ContainerUser>
             <LayoutDefault
                 layoutContent={
-                    <div>
-                        this is page details news {id}
-                    </div>
+                    <ContentItem />
                 }
                 layoutSider={<>
                     <ContentSidebar

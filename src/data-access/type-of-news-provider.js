@@ -4,5 +4,6 @@ export default {
   getTypeOfNews() {
     let url = constants.api.typeOfNews;
     return client.requestApi("get", url, {});
-  }
+  },
+  
 };

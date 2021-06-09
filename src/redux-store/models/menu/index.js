@@ -6,7 +6,8 @@ export default {
   state: {
     menuBar: [],
     activeMenu: {},
-    indexAvtive: '1'
+    nameMenu: [],
+    indexAvtive: '1',
   },
 
   reducers: {
@@ -21,6 +22,7 @@ export default {
       let { data = [], success = false } = res || {};
 
       if (success) {
+        const arr = data.map(item => item.name)
         let arrMenu = [{
           id: 0,
           name: "Trang chủ",
@@ -30,16 +32,20 @@ export default {
         dispatch.menu.updateData({
           menuBar: arrMenu.concat(data),
         });
+        dispatch.menu.updateData({
+          nameMenu: ([""]).concat(arr),
+        });
       }
     },
-    changeActiveMenu: async (payload) => {
+    changeActiveMenu: async (payload,) => {
       const { index = 1, active = {} } = payload
-      
+
       dispatch.menu.updateData({
         indexAvtive: index + '',
         activeMenu: { ...active }
       });
     },
+
 
   }),
 };

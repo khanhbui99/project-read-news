@@ -4,7 +4,8 @@ module.exports = {
     typeOfNews: prefix + 'loai-tin',
     featured_news: prefix + 'tin-tuc-noi-bat',
     new_post: prefix + 'tin-tuc-moi-dang',
-    covid_19: prefix + 'covid'
+    covid_19: prefix + 'covid',
+    news: prefix +'tin-tuc'
     // login: prefix + "auth/login",
     // dmNhanvien: prefix + "dm-nhan-vien",
     // dmBoPhan: prefix + "dm-bo-phan",

@@ -1,15 +1,17 @@
 import React from "react"
 import { Row, Input } from "antd"
 import ItemMenu from "../ItemMenu";
+import { Link, useHistory } from "react-router-dom";
 import "./style.scss";
 
 const { Search } = Input;
 
 
 const HeaderPage = () => {
+    const history = useHistory();
     const onSearch = (txt) => {
-        alert(txt)
-
+        if (!txt.length) return
+        history.push(`/tim-kiem/${txt}`)
     }
     return (
         <Row className="header-page">

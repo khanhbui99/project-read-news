@@ -12,5 +12,18 @@ export default {
     getCovid19() {
         let url = constants.api.covid_19;
         return client.requestApi("get", url, {});
+    },
+    getViewForNews(id) {
+        let url = `${constants.api.news}/view/${id}`;
+        return client.requestApi("get", url, {});
+    },
+    getKindOfNewsFollowType(id) {
+        let url = `${constants.api.news}/loai-tin/${id}`;
+        return client.requestApi("get", url, {});
+    },
+    searchDataFollowTitle(key) {
+        let url = `${constants.api.news}/search/${key}`;
+        return client.requestApi("get", url, {});
     }
+
 };

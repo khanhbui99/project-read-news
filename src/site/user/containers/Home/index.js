@@ -11,6 +11,7 @@ import {
 import { connect } from "react-redux"
 import { isArray } from 'lodash'
 import "./style.scss";
+import { Pagination } from 'antd';
 
 
 const HomeScreen = ({
@@ -25,6 +26,9 @@ const HomeScreen = ({
     const [newShow, setNewShow] = useState({})
     const [dataCousel, setDataCarousel] = useState([])
     const [dataAllNew, setDataAllNew] = useState([])
+    const [page, setPage] = useState(1);
+    const [showDataFollowPage, setDataFollowPage] = useState([]);
+
 
     useEffect(() => {
         getMenuBar();
@@ -63,6 +67,20 @@ const HomeScreen = ({
         getIdActive(highlights, newPost, seeMore);
     }, [newPost, highlights])
 
+    useEffect(() => {
+        if (dataAllNew.length) {
+            setDataFollowPage([])
+            let arr = []
+            dataAllNew.map((item, ind) => {
+                if (ind >= ((page - 1) * 15) && ind <= (page * 15)) {
+                    arr.push(item)
+                }
+
+            })
+            setDataFollowPage([...arr])
+        }
+
+    }, [page, dataAllNew])
     const getIdActive = (highlights = [], newPost = [], seeMore = []) => {
         let idActive = []
         let arr = []
@@ -82,6 +100,7 @@ const HomeScreen = ({
         setDataAllNew([...arr])
 
     }
+
 
 
     return (
@@ -115,20 +134,21 @@ const HomeScreen = ({
                             <CarouselRelease data={item.data || []} />
                         </div>
                     }
-                    return <div key={String(index)}/>
+                    return <div key={String(index)} />
                 })
             }
             <div>
                 <LayoutDefault
                     layoutContent={
                         isArray(dataAllNew) && dataAllNew.length &&
-                        <div>
+                        <div className="text-center">
                             <div className="group-title mt-5">
                                 <span>{'Liên quan'}</span>
                             </div>
                             <div className="flex justify-between flex-wrap">
                                 {
-                                    dataAllNew.map((item, index) => {
+                                    showDataFollowPage.map((item, index) => {
+                                        if (index >= 15) return null
                                         return <div key={String(index)} style={{ width: 220, }}>
                                             <ItemShow item={item} />
                                         </div>
@@ -136,6 +156,13 @@ const HomeScreen = ({
                                 }
 
                             </div>
+                            <Pagination
+                                className="mt-5 mb-5"
+                                defaultPageSize={15}
+                                defaultCurrent={1}
+                                total={dataAllNew.length}
+                                onChange={val => setPage(val)}
+                            />
                         </div>
                     }
                     layoutSider={<div className="mt-5">

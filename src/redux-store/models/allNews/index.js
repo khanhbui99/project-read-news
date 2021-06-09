@@ -8,7 +8,10 @@ export default {
     seeMore: [],
     allNew: [],
     newPost: [],
-    covid19: []
+    covid19: [],
+    itemActive: {},
+    dataKindOfNews: [],
+    searchData: []
   },
 
   reducers: {
@@ -54,7 +57,48 @@ export default {
           covid19: data || [],
         });
       }
+    },
+    updateViewForNews: async (id = undefined) => {
+      let res = await featuredNewsProvider.getViewForNews(id);
+
+      let { data = {}, success = false } = res || {};
+
+      if (success) {
+
+        dispatch.allNews.updateData({
+          itemActive: { ...data },
+        });
+      }
+    },
+    getKindOfNewsFollowType: async (id) => {
+      dispatch.menu.changeActiveMenu({
+        index: id + '',
+      });
+      let res = await featuredNewsProvider.getKindOfNewsFollowType(id);
+
+      let { data = [], success = false } = res || {};
+
+      if (success) {
+
+        dispatch.allNews.updateData({
+          dataKindOfNews: data || [],
+        });
+      }
+
+    },
+    searchDataFollowTitle: async (key) => {
+      let res = await featuredNewsProvider.searchDataFollowTitle(key);
+
+      let { data = [], success = false } = res || {};
+
+      if (success) {
+
+        dispatch.allNews.updateData({
+          searchData: data || [],
+        });
+      }
     }
+
 
   }),
 };

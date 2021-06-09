@@ -1,6 +1,6 @@
 import React from "react"
 import { Menu } from "antd"
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux"
 import { isArray } from "lodash";
 
@@ -9,11 +9,20 @@ const ItemMenu = ({
     indexAvtive,
     changeActiveMenu,
     menuBar,
+    getKindOfNewsFollowType
 }) => {
+    const history = useHistory();
+
+    const onChangeMenu = async (item = {}, index = 0) => {
+        await getKindOfNewsFollowType(index);
+        changeActiveMenu({ index: index + 1, active: item })
+        history.push(`${item.id == 0 ? '/' : `/tin-tuc/${item.slug}&ind=${index}`}`)
+
+    }
     return (
         <Menu
             mode="horizontal"
-            defaultSelectedKeys={[(indexAvtive && indexAvtive || '3')]}
+            selectedKeys={[(indexAvtive && indexAvtive || '0')]}
             className=""
             style={{ background: 'transparent', color: '#fff' }}
             color="#fff"
@@ -24,17 +33,12 @@ const ItemMenu = ({
                 isArray(menuBar) &&
                 menuBar.map((item, index) => {
                     return (
-                        <Menu.Item key={index + 1}>
-                            <Link
-                                onClick={() => changeActiveMenu({ index: index + 1, active: item })}
-                                to={item.id == 0 ? '/' : `/tin-tuc/${item.slug}`}
-                                title={item.name}
-                                className=" waves-effect waves-themed"
-                            >
-                                <span className="nav-link-text">
-                                    {item.name}
-                                </span>
-                            </Link>
+                        <Menu.Item key={String(index)}
+                            onClick={() => onChangeMenu(item, item.id)}
+                        >
+                            <span className="nav-link-text">
+                                {item.name}
+                            </span>
                         </Menu.Item>
                     )
                 })
@@ -59,8 +63,10 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = ({
     menu: { changeActiveMenu },
+    allNews: { getKindOfNewsFollowType },
 }) => ({
     changeActiveMenu,
+    getKindOfNewsFollowType
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ItemMenu);
 

@@ -22,9 +22,16 @@ export default function index(props) {
       }),
     },
     {
-      path: ["/about"],
+      path: ["/tin-tuc/:type"],
       component: Loadable({
-        loader: () => import("site/user/containers/About"),
+        loader: () => import("site/user/containers/NewsType"),
+        loading: Loading,
+      }),
+    },
+    {
+      path: ["/tim-kiem/:key"],
+      component: Loadable({
+        loader: () => import("site/user/containers/Seaerch"),
         loading: Loading,
       }),
     },
