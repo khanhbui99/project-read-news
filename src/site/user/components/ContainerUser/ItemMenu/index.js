@@ -14,8 +14,10 @@ const ItemMenu = ({
     const history = useHistory();
 
     const onChangeMenu = async (item = {}, index = 0) => {
-        await getKindOfNewsFollowType(index);
-        changeActiveMenu({ index: index + 1, active: item })
+        if (index) {
+            await getKindOfNewsFollowType(index);
+        }
+        changeActiveMenu({ index: index, active: item })
         history.push(`${item.id == 0 ? '/' : `/tin-tuc/${item.slug}&ind=${index}`}`)
 
     }
