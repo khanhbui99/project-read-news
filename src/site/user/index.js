@@ -2,10 +2,15 @@ import React from "react";
 import Loadable from "react-loadable";
 import { Switch } from "react-router-dom";
 import RouterWithPaths from "components/RouterWithPaths";
-function Loading() {
-  return <div></div>;
-}
-export default function index(props) {
+import {
+  SettingLayout,
+  Loading
+} from "site/admin/components/admin";
+import Admin from "site/admin";
+import "antd/dist/antd.css";
+
+const index = (props) => {
+
   const routers = [
     {
       path: ["/"],
@@ -27,6 +32,7 @@ export default function index(props) {
         loader: () => import("site/user/containers/NewsType"),
         loading: Loading,
       }),
+      // component: Admin,
     },
     {
       path: ["/tim-kiem/:key"],
@@ -35,9 +41,14 @@ export default function index(props) {
         loading: Loading,
       }),
     },
+    {
+      path: ["/admin"],
+      component: Admin,
+    },
   ];
+
   return (
-    <div className="page-container">
+    <div>
       <Switch>
         {routers.map((route, key) => {
           if (route.component)
@@ -54,6 +65,9 @@ export default function index(props) {
           return null;
         })}
       </Switch>
+      <SettingLayout />
     </div>
   );
 }
+
+export default index

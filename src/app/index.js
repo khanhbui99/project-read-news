@@ -6,7 +6,7 @@ import { pink } from "themes";
 // import Layout from "app/Layout";
 // import Admin from "site/admin";
 import User from "site/user";
-// import Auth from "site/user/containers/auth/LoginScreen";
+import Auth from "site/user/containers/auth/LoginScreen";
 import { Main } from "./styled";
 import { ConfigProvider } from "antd";
 import viVN from "antd/es/locale/vi_VN";
@@ -58,10 +58,10 @@ const App = (props) => {
     return re.test(this);
   };
   const routers = [
-    // {
-    //   path: ["/login"],
-    //   component: Auth,
-    // },
+    {
+      path: ["/login"],
+      component: Auth,
+    },
     // {
     //   path: ["/noiquy"],
     //   component: NoiQuy,

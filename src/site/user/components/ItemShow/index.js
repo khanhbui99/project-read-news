@@ -36,10 +36,14 @@ const ItemShow = ({
                                 alt="ảnh tin mới"
                             />
                         </div>
+                        <div>
+                            <p className="line-clamp-4 f-14 mb-0">
+                                {item.title || ''}
+                            </p>
+                            {/* <p className="mt-3 f-14 author">{`Tác giả: ${item.author || ''}`}</p> */}
+                        </div>
 
-                        <p className="line-clamp-4 f-14 mb-0">
-                            {item.title || ''}
-                        </p>
+
                     </div>
                 ) : (
                     <div className="item-content flex mb-2 a" onClick={() => onDetailsItem(item)}>
@@ -54,7 +58,7 @@ const ItemShow = ({
                             <p className="line-clamp-4 f-14 mb-0 pb-2">
                                 {item.title || ''}
                             </p>
-                            <span className="f-14"> {`${moment(item.created_at).format('DD/MM/YYYY HH:MM') || ''} | Lượt đọc: ${item.view || 0}`} </span>
+                            <span className="f-14"> {`${moment(item.created_at).format('DD/MM/YYYY HH:MM') || ''} | Lượt đọc: ${item.view || 0} | Tác giả: ${item.author || ''}`} </span>
 
                         </div>
 

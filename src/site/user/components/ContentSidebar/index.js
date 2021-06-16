@@ -2,6 +2,7 @@ import { isArray } from "lodash";
 import React from "react"
 import "./style.scss";
 import ItemShow from "../ItemShow"
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux"
 
 
@@ -14,6 +15,10 @@ const ContentSidebar = ({
     isScorll = false,
     nameMenu = []
 }) => {
+    const history = useHistory();
+    const onDetailsItem = (item = {}) => {
+        history.push(`/chi-tiet/${item.slug || ''}_&&&_${item.id}`)
+    }
     return (
         <div className="group-siled">
             {styleMenu == 1 &&
@@ -84,11 +89,12 @@ const ContentSidebar = ({
                             isArray(item.data) &&
                             item.data.map((item2, index) => {
                                 return (
-                                    <div key={String(index)} className="item-content pt-2 pb-2">
+                                    <div key={String(index)} className="item-content pt-2 pb-2" onClick={() => onDetailsItem(item2)}>
                                         <label className="mb-0">{nameMenu[item2.loai_tin_id || 0]}</label>
                                         <p className="line-clamp-4 f-14 mb-0">
                                             {item2.title || ''}
                                         </p>
+                                        <label className="mb-0 pt-1">{`Tác giả: ${item2.author || ''}`}</label>
                                     </div>
                                 )
 

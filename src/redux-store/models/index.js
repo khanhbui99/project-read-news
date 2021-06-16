@@ -1,4 +1,3 @@
-import auth from "./auth";
 import employee from "./employee";
 import department from "./department";
 import specialize from "./specialize";
@@ -18,8 +17,9 @@ import employeeProject from "./employeeProject";
 import application from "./application";
 import dateTimeOnl from './dateTimeOnl';
 import workOT from './workOT'
-import menu from './menu'
-import allNews from './allNews'
+
+import { menu, allNews } from "./user"
+import { auth } from "./admin"
 export {
   auth,
   employee,

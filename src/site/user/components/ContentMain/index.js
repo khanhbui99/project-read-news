@@ -24,12 +24,16 @@ const ContentMain = ({
                         alt="ảnh chính trong ngày"
                     />
                     {
-                        !isHome &&
+                        !isHome && item.title &&
                         <div className="group-not-home" >
                             <h4>{item.title || ''}</h4>
-                            <span className=" line-clamp-4 ">
+                            <span className=" line-clamp-4">
                                 {item.content || ''}
-                            </span>
+                            </span><br />
+                            <span
+                                className="f-14 author mb-5"
+                                style={{ background: "#08aaa8" }}
+                            >{`Tác giả: ${item.author || ''}`}</span>
                         </div>
                     }
 
@@ -40,10 +44,16 @@ const ContentMain = ({
                     }
                 </div>
                 {
-                    isHome &&
-                    <span className="text-justify line-clamp-4 mb-5">
-                        {item.content || ''}
-                    </span>
+                    isHome && item.content && <>
+                        <span className="text-justify line-clamp-4 ">
+                            {item.content || ''}
+                        </span><br />
+                        <span
+                            className="f-14 author mb-5"
+                            style={{ background: "#08aaa8" }}
+                        >{`Tác giả: ${item.author || ''}`}</span>
+                    </>
+
                 }
 
             </div>

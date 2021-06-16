@@ -13,12 +13,12 @@ function LoginScreen(props) {
       props.updateData({
         auth: s.data,
       });
-      props.history.replace("/");
+      props.history.replace("/admin");
     });
   };
   useEffect(() => {
     if (props.auth) {
-      props.history.replace("/");
+      props.history.replace("/login");
     }
   }, []);
 
@@ -40,9 +40,9 @@ function LoginScreen(props) {
           <div className="login100-form validate-form">
             <span className="login100-form-title p-b-49">
               <img
-                src={require("resources/images/logoiSofHHr.png")}
+                src={require("resources/images/logo.png")}
                 alt=""
-                style={{ paddingBottom: 20 }}
+                style={{ paddingBottom: 20, width: '100%' }}
               />
               <br />
               ĐĂNG NHẬP

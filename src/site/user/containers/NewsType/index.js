@@ -103,13 +103,16 @@ const NewsType = ({
                                                 }
 
                                             </div>
-                                            <Pagination
-                                                className="mt-5 mb-5"
-                                                defaultPageSize={15}
-                                                defaultCurrent={1}
-                                                total={newShow.length}
-                                                onChange={val => setPage(val)}
-                                            />
+                                            {
+                                                (newShow.length / 15) > 1 && <Pagination
+                                                    className="mt-5 mb-5"
+                                                    defaultPageSize={15}
+                                                    defaultCurrent={1}
+                                                    total={newShow.length}
+                                                    onChange={val => setPage(val)}
+                                                />
+                                            }
+
                                         </div>
                                     }
                                 </>

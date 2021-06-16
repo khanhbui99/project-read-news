@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 import { useParams } from "react-router-dom";
 import { isArray } from 'lodash'
 import { CarouselRelease, } from "site/user/components"
+import "./style.scss"
 
 const ContentItem = ({
     itemActive,
@@ -12,7 +13,8 @@ const ContentItem = ({
     highlights,
     seeMore
 }) => {
-    const [dataShow, setDataShow] = useState([])
+    const [dataShow, setDataShow] = useState([]);
+    const [isHtml, setIsHtml] = useState(false);
     const [dataCousel, setDataCarousel] = useState([])
     let { id } = useParams();
 
@@ -44,22 +46,33 @@ const ContentItem = ({
     useEffect(() => {
         const { id = 0, content = "", image = "" } = itemActive
         if (id) {
-            let arr = []
-            const random = Math.floor(Math.random() * 2);
-            const leng = content.length;
-            const start = content.substring(0, parseInt(leng / 2))
-            const end = content.substring(parseInt(leng / 2))
 
-            for (let i = 0; i < 3; i++) {
+            if (content.indexOf('<p>') > -1) {
+                setIsHtml(true);
+            } else {
+                setIsHtml(false);
+                let arr = []
+                const random = Math.floor(Math.random() * 2);
+                const leng = content.length;
+                const start = content.substring(0, parseInt(leng / 2))
+                const end = content.substring(parseInt(leng / 2))
 
-                arr.push({
-                    isImage: random == i,
-                    value: random == i ? image : random == 0 ? content : i == 0 ? start : end,
-                })
+                for (let i = 0; i < 3; i++) {
+
+                    arr.push({
+                        isImage: random == i,
+                        value: random == i ? image : random == 0 ? content : i == 0 ? start : end,
+                    })
+                }
+                setDataShow([...arr])
             }
-            setDataShow([...arr])
+
         }
     }, [itemActive])
+
+    const renderHtml = (html) => {
+        return document.getElementById("content-show").innerHTML = html;
+    }
 
     return (
         <>
@@ -67,18 +80,19 @@ const ContentItem = ({
                 itemActive.id && (
                     <div>
                         <h1>{itemActive.title || ''}</h1>
-                        <span className="f-14"> {`${moment(itemActive.created_at).format('Thu, DD/MM/YYYY HH:MM') || ''} | Lượt đọc: ${itemActive.view || 0}`} </span>
-                        <div className="mt-5">
+                        <span className="f-14"> {`${moment(itemActive.created_at).format('Thu, DD/MM/YYYY HH:MM') || ''} | Lượt đọc: ${itemActive.view || 0} | `} </span>
+                        <span className="f-14 author" style={{ background: "#08aaa8" }}>{`Tác giả: ${itemActive.author || ''}`}</span>
+                        <div className="mt-5" style={{ fontSize: '1rem' }}>
                             {
-                                dataShow.map((item, ind) => {
+                                !isHtml && dataShow.map((item, ind) => {
                                     if (item.isImage) {
                                         return (
                                             <div
+                                                key={String(ind)}
                                                 className="mt-2 mb-3"
                                                 style={{ display: 'flex', justifyContent: "center", }}
                                             >
                                                 <img
-                                                    key={String(ind)}
                                                     src={item.value || ""}
                                                     className="img-hot"
                                                     alt={itemActive.image_id || ""}
@@ -96,7 +110,9 @@ const ContentItem = ({
                             }
 
                         </div>
-
+                        <div id="content-show" style={{ fontSize: '1rem' }}>
+                            {isHtml && renderHtml(itemActive.content)}
+                        </div>
 
                     </div>
                 )

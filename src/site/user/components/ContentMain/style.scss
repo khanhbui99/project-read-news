@@ -26,18 +26,18 @@
             .group-not-home {
                 top: 10px;
                 height: 330px;
-                background: #FFF !important;
+                background: #fff !important;
                 width: 32%;
                 left: 10px;
                 position: absolute;
                 padding: 25px 15px;
                 cursor: pointer;
                 border-radius: 3px;
-                h4{
+                h4 {
                     color: #5e92c4;
                     font-weight: bold;
                 }
-                span{
+                span {
                     font-size: 13px;
                 }
             }
@@ -69,4 +69,8 @@
             }
         }
     }
+}
+.author {
+    color: #fff;
+    padding: 0px 5px;
 }
