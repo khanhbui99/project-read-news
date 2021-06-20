@@ -105,6 +105,7 @@ const Covid19 = ({
               ),
               key: "col2",
               dataIndex: "col2",
+              align: "center",
               width: 200,
             },
             {
@@ -151,6 +152,7 @@ const Covid19 = ({
               ),
               key: "col5",
               dataIndex: "col5",
+              align: "center",
               width: 170,
             },
             {
@@ -206,7 +208,7 @@ const Covid19 = ({
               key: "col10",
               dataIndex: "col10",
               align: "center",
-              width: 150,
+              width: 200,
             },
           ]}
           dataSource={data || []}
