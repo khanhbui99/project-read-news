@@ -3,10 +3,10 @@ import clientUtils from "../utils/client-utils";
 var md5 = require('md5');
 
 export default {
-  login(matKhau, taiKhoan) {
+  login(password, email) {
     let object = {
-      matKhau: md5(matKhau),
-      taiKhoan,
+      email,
+      password
     };
     return new Promise((resolve, reject) => {
       clientUtils

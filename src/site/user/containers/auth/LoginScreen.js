@@ -1,25 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Main } from "./styled";
+import { useHistory } from "react-router-dom";
+
 function LoginScreen(props) {
+  const history = useHistory();
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+
   const onLogin = () => {
     const param = {
       matKhau: password,
       taiKhoan: username.trim(),
     };
+
     props.onLogin(param).then((s) => {
       props.updateData({
         auth: s.data,
       });
-      props.history.replace("/admin");
+      history.replace("/admin/Dashboard");
     });
   };
   useEffect(() => {
-    if (props.auth) {
-      props.history.replace("/login");
+    if (!(props.auth || {}).token) {
+      history.replace("/admin/login");
+    } else {
+      history.replace("/admin/Dashboard");
     }
+
   }, []);
 
   const onKeyDown = (e) => {

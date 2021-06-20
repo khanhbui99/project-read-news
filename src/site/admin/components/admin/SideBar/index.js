@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import ItemMenu from "../ItemMenu";
 import $ from "jquery";
 
-const SideBar = (props)=> {
+const SideBar = (props) => {
   const menus = useRef(null);
   const [state, _setState] = useState({
     show: false,
@@ -21,204 +21,62 @@ const SideBar = (props)=> {
     let allMenus = [
       {
         userType: [],
-        href: "/Dashboard",
+        href: "/admin/Dashboard",
         i18n: "nav.dashboard",
         name: "Dashboard",
         icon: "fal fa-game-board-alt",
         filter: "dashboard tổng quan",
       },
-      {
-        userType: ["ROLE_HR", "ROLE_Manager"],
-        href: "#",
-        i18n: "nav.dashboard",
-        name: "Vai trò & Quyền",
-        icon: "fal fa-user-cog",
-        filter: "role vai trò & quyền",
-        menus: [
-          {
-            href: "/danh-sach-vai-tro",
-            name: "Vai trò",
-            i18n: "nav.user-type",
-          },
-          {
-            href: "/danh-sach-quyen",
-            name: "Quyền",
-            i18n: "nav.user",
-          },
-        ],
-      },
-      {
-        userType: ["ROLE_HR", "ROLE_Manager"],
-        href: "#",
-        i18n: "nav.dashboard",
-        name: "Quản lý nhân sự",
-        icon: "fal fa-users",
-        filter: "Quản lý nhân sự",
-        menus: [
-          {
-            userType: ["ROLE_HR", "ROLE_Manager"],
-            href: "/danh-sach-nhan-vien",
-            name: "Danh sách nhân viên",
-            i18n: "nav.user-type",
-          },
-          {
-            userType: ["ROLE_HR", "ROLE_Manager"],
-            href: "/danh-muc-lam-ngoai-gio",
-            name: "Làm ngoài giờ",
-            i18n: "nav.user",
-          },
-          {
-            userType: ["ROLE_HR", "ROLE_Manager"],
-            href: "/danh-sach-bo-phan",
-            name: "Bộ phận",
-            i18n: "nav.user",
-          },
-          {
-            userType: ["ROLE_HR", "ROLE_Manager"],
-            href: "/danh-sach-chuyen-mon",
-            name: "Chuyên môn",
-            i18n: "nav.user",
-          },
-          {
-            userType: ["ROLE_HR", "ROLE_Manager"],
-            href: "/danh-sach-du-an",
-            name: "Dự án",
-            i18n: "nav.user",
-          },
-        ],
-      },
-      {
-        userType: ["ROLE_HR", "ROLE_Manager"],
-        href: "#",
-        i18n: "nav.dashboard",
-        name: "Lịch làm việc",
-        icon: "fal fa-calendar-alt",
-        filter: "Lịch làm việc",
-        menus: [
-          {
-            userType: ["ROLE_HR", "ROLE_Manager"],
-            href: "/khu-vuc-cham-cong",
-            name: "Khu vực chấm công",
-            i18n: "nav.user",
-          },
-          {
-            userType: ["ROLE_HR"],
-            href: "/cham-cong-tay",
-            name: "Chấm công tay",
-            i18n: "nav.user-type",
-          },
-          {
-            userType: ["ROLE_HR", "ROLE_Manager"],
-            href: "/danh-sach-bao-nghi",
-            name: "DS báo nghỉ",
-            i18n: "nav.user",
-          },
-          {
-            userType: ["ROLE_HR", "ROLE_Manager"],
-            href: "/danh-sach-ot",
-            name: "DS OT",
-            i18n: "nav.user",
-          },
-          {
-            userType: ["ROLE_HR"],
-            href: "/bao-cao-cham-cong",
-            name: "Báo cáo chấm công",
-            i18n: "nav.user",
-          },
-        ],
-      },
+      
+      // {
+      //   userType: [],
+      //   href: "#",
+      //   i18n: "nav.dashboard",
+      //   name: "Tuyển dụng",
+      //   icon: "fal fa-users-class",
+      //   filter: "Hợp đồng",
+      //   menus: [
+      //     {
+      //       href: "/admin/nguon-tuyen-dung",
+      //       name: "Nguồn tuyển dụng",
+      //       i18n: "nav.user-type",
+      //     },
+      //     {
+      //       href: "/admin/lich-phong-van",
+      //       name: "Lịch phỏng vấn",
+      //       i18n: "nav.user",
+      //     },
+      //     {
+      //       href: "/admin/lich-di-lam",
+      //       name: "Lịch đi làm",
+      //       i18n: "nav.user",
+      //     },
+      //   ],
+      // },
+      
       {
         userType: [],
-        href: "/thong-tin-nhan-vien",
+        href: "/admin/danh-sach-the-loai",
         i18n: "nav.dashboard",
-        name: "Thông tin nhân viên",
-        icon: "fal fa-file-alt",
-        filter: "Thông tin nhân viên",
-      },
-      {
-        userType: ["ROLE_HR"],
-        href: "#",
-        i18n: "nav.dashboard",
-        name: "Hợp đồng",
-        icon: "fal fa-id-card-alt",
-        filter: "Hợp đồng",
-        menus: [
-          {
-            href: "/danh-sach-hop-dong",
-            name: "Danh sách hợp đồng",
-            i18n: "nav.user-type",
-          },
-          {
-            href: "/loai-hop-dong",
-            name: "Loại hợp đồng",
-            i18n: "nav.user",
-          },
-        ],
-      },
-      {
-        userType: ["ROLE_HR"],
-        href: "/quan-ly-bao-hiem",
-        i18n: "nav.dashboard",
-        name: "Quản lý bảo hiểm",
-        icon: "fal fa-hospital-user",
-        filter: "Quản lý bảo hiểm",
-      },
-      {
-        userType: ["ROLE_HR"],
-        href: "#",
-        i18n: "nav.dashboard",
-        name: "Tuyển dụng",
-        icon: "fal fa-users-class",
-        filter: "Hợp đồng",
-        menus: [
-          {
-            href: "/nguon-tuyen-dung",
-            name: "Nguồn tuyển dụng",
-            i18n: "nav.user-type",
-          },
-          {
-            href: "/lich-phong-van",
-            name: "Lịch phỏng vấn",
-            i18n: "nav.user",
-          },
-          {
-            href: "/lich-di-lam",
-            name: "Lịch đi làm",
-            i18n: "nav.user",
-          },
-        ],
-      },
-      {
-        userType: ["ROLE_HR"],
-        href: "/tin-tuc",
-        i18n: "nav.dashboard",
-        name: "Tin tức",
-        icon: "fal fa-newspaper",
-        filter: "Tin tức",
-      },
-      {
-        userType: ["ROLE_HR", "ROLE_Manager"],
-        href: "/thong-bao",
-        i18n: "nav.dashboard",
-        name: "Thông báo",
-        icon: "fal fa-bell",
-        filter: "Thông báo",
-      },
-      {
-        userType: [],
-        href: "/de-xuat-ot",
-        i18n: "nav.dashboard",
-        name: "Đề xuất OT",
-        icon: "fal fa-calendar-plus",
-        filter: "Đề xuất OT",
-      },
-      {
-        userType: [],
-        href: "/de-xuat-nghi-phep",
-        i18n: "nav.dashboard",
-        name: "Đề xuất nghỉ phép",
+        name: "Thể loại",
         icon: "fal fa-calendar-minus",
-        filter: "Đề xuất nghỉ phép",
+        filter: "Thể loại",
+      },
+      {
+        userType: [],
+        href: "/admin/danh-sach-bai-viet",
+        i18n: "nav.dashboard",
+        name: "Bài viết",
+        icon: "fal fa-newspaper",
+        filter: "Bài viết",
+      },
+      {
+        userType: [],
+        href: "/admin/covid-19",
+        i18n: "nav.dashboard",
+        name: "Covid 19",
+        icon: "fal fa-file-alt",
+        filter: "Covid 19",
       },
     ];
     return allMenus.filter((item) => {
@@ -237,7 +95,7 @@ const SideBar = (props)=> {
         $("#nav_filter_input"),
         $("#js-primary-nav")
       );
-    } catch (error) {}
+    } catch (error) { }
   });
   useEffect(() => {
     setState({ menus: getMenu() });

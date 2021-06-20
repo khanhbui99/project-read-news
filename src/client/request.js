@@ -52,11 +52,11 @@ const client = axios.create({
 client.interceptors.request.use(async (config) => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const access_token = urlParams.get("access_token");
+  const access_token = urlParams.get("token");
   if (config.url?.indexOf("blob:") == 0) config.baseURL = "";
   try {
     let state = getState();
-    let token = state.auth.auth?.access_token;
+    let token = state.auth?.token;
 
     if (access_token !== undefined && access_token !== null) {
       token = access_token;
@@ -71,6 +71,7 @@ client.interceptors.request.use(async (config) => {
 
     return config;
   } catch (error) {
+    console.log('error: ', error);
     return Promise.reject(error);
   }
 });

@@ -78,7 +78,7 @@ export default {
   serverApi: HOST,
   uploadImage(url, file) {
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("images[]", file);
     const config = {
       headers: {
         "content-type": "multipart/form-data",
@@ -89,6 +89,7 @@ export default {
   },
   requestApi(methodType, url, body) {
     return new Promise((resolve, reject) => {
+      console.log("auth:", this.auth);
       var dataBody = "";
       if (!body) body = {};
       dataBody = JSON.stringify(body);

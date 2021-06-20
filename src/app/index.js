@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { ThemeProvider } from "styled-components";
 import { pink } from "themes";
 // import Layout from "app/Layout";
-// import Admin from "site/admin";
+import Admin from "site/admin";
 import User from "site/user";
 import Auth from "site/user/containers/auth/LoginScreen";
 import { Main } from "./styled";
@@ -23,22 +23,22 @@ Array.prototype.insert = function (index, item) {
 const App = (props) => {
   const history = useHistory();
 
-  useEffect(() => {
-    reportWindowSize();
-    window.addEventListener("resize", reportWindowSize);
-    return () => {
-      window.removeEventListener("resize", reportWindowSize);
-    };
-  }, []);
+  // useEffect(() => {
+  //   reportWindowSize();
+  //   window.addEventListener("resize", reportWindowSize);
+  //   return () => {
+  //     window.removeEventListener("resize", reportWindowSize);
+  //   };
+  // }, []);
   useEffect(() => {
     props.checkRole();
     props.getMenuBar();
   }, []);
-  const reportWindowSize = () => {
-    props.updateApplication({
-      width: window.innerWidth,
-    });
-  };
+  // const reportWindowSize = () => {
+  //   props.updateApplication({
+  //     width: window.innerWidth,
+  //   });
+  // };
   // const logout = connect(null, ({ auth: { updateData } }) => ({ updateData }))(
   //   (props) => {
   //     props.updateData({
@@ -59,7 +59,7 @@ const App = (props) => {
   };
   const routers = [
     {
-      path: ["/login"],
+      path: ["/admin/login"],
       component: Auth,
     },
     // {
@@ -69,7 +69,12 @@ const App = (props) => {
     // {
     //   path: ["/logout"],
     //   component: logout,
-    // },
+    // }
+    {
+      path: ["/admin/:id"],
+      component: Admin,
+
+    },
     {
       path: [
         "/",
@@ -78,8 +83,8 @@ const App = (props) => {
         "/:function1/:function2/:id",
       ],
       component: User,
-      // component: Admin,
     },
+
   ];
   return (
     <ThemeProvider theme={pink}>
@@ -110,14 +115,12 @@ const mapState = (state) => ({
 
 const mapDispatch = ({
   auth: { onLogin, onLogout, updateData, loadWithToken, checkRole },
-  application: { updateData: updateApplication },
   menu: { getMenuBar },
 }) => ({
   onLogin,
   onLogout,
   updateData,
   loadWithToken,
-  updateApplication,
   checkRole,
   getMenuBar
 });

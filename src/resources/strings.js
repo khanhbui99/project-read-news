@@ -5,8 +5,8 @@ module.exports = {
     featured_news: prefix + 'tin-tuc-noi-bat',
     new_post: prefix + 'tin-tuc-moi-dang',
     covid_19: prefix + 'covid',
-    news: prefix +'tin-tuc'
-    // login: prefix + "auth/login",
+    news: prefix + 'tin-tuc',
+    login: prefix + "login",
     // dmNhanvien: prefix + "dm-nhan-vien",
     // dmBoPhan: prefix + "dm-bo-phan",
     // dmDuAn: prefix + "dm-du-an",

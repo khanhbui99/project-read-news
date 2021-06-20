@@ -1,7 +1,7 @@
 import React, { useState, useLayoutEffect, useRef } from "react";
 import "./style.scss";
 import { connect } from "react-redux";
-import ModalChangePass from "site/admin/containers/employee/modalChangePass";
+
 const Header = (props) => {
   const screenShort = useRef(null);
   const [size, setSize] = useState([0, 0]);
@@ -1300,7 +1300,6 @@ const Header = (props) => {
           </div>
         </div>
       </div>
-      {state.showChangePass ? <ModalChangePass onClose={closeModal} /> : null}
     </header>
   );
 }

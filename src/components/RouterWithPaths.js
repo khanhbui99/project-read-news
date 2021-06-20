@@ -9,7 +9,7 @@ const RouterWithPaths = ({ path, roles = [], ...rest }) => {
   let data = localStorage.getItem("auth") || "";
   if (data) {
     data = JSON.parse(data);
-    clientUtils.auth = "Bearer " + data.access_token;
+    clientUtils.auth = "Bearer " + data.token;
   }
   if (roles.length) {
     if (!roles.find((item) => currentRole.find((item2) => item2 === item))) {

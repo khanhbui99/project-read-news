@@ -41,10 +41,6 @@ const index = (props) => {
         loading: Loading,
       }),
     },
-    {
-      path: ["/admin"],
-      component: Admin,
-    },
   ];
 
   return (

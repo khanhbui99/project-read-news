@@ -10,189 +10,45 @@ import {
   SettingLayout,
 } from "site/admin/components/admin";
 import { connect } from "react-redux";
-import dateUtils from "mainam-react-native-date-utils";
+import { useHistory } from "react-router-dom";
 import "antd/dist/antd.css";
 import { Loading } from "site/admin/components/admin";
+
+
 const Admin = (props) => {
   useEffect(() => {
     window.registerEvent();
   });
+  const history = useHistory();
 
   const routers = [
+    // {
+    //   roles: [],
+    //   path: ["/admin"],
+    //   component: Loadable({
+    //     loader: () => import("site/admin/containers/home"),
+    //     loading: Loading,
+    //   }),
+    // },
     {
       roles: [],
-      path: ["/"],
+      path: ["/admin/covid-19"],
       component: Loadable({
-        loader: () => import("site/admin/containers/home"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR", "ROLE_Manager"],
-      path: ["/danh-sach-nhan-vien"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/employee"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR", "ROLE_Manager"],
-      path: ["/danh-muc-lam-ngoai-gio"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/workOT"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR", "ROLE_Manager"],
-      path: ["/nhan-vien/them-moi", "/nhan-vien/chinh-sua/:id"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/employee/create"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR", "ROLE_Manager"],
-      path: ["/nhan-vien/chi-tiet/:id"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/employee/detail"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR", "ROLE_Manager"],
-      path: ["/danh-sach-bo-phan"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/department"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR", "ROLE_Manager"],
-      path: ["/danh-sach-du-an"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/project"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR", "ROLE_Manager"],
-      path: ["/khu-vuc-cham-cong"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/checkin-Area"),
+        loader: () => import("site/admin/containers/covid19"),
         loading: Loading,
       }),
     },
     {
       roles: [],
-      path: ["/thong-tin-nhan-vien"],
+      path: ["/admin/danh-sach-the-loai"],
       component: Loadable({
-        loader: () => import("site/admin/containers/employee-info"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR"],
-      path: ["/cham-cong-tay"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/check-in"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR", "ROLE_Manager"],
-      path: ["/danh-sach-chuyen-mon"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/specialize"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR", "ROLE_Manager"],
-      path: ["/danh-sach-bao-nghi"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/employee-leave"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR"],
-      path: ["/bao-cao-cham-cong"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/report"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR", "ROLE_Manager"],
-      path: ["/thong-bao"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/notification"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR", "ROLE_Manager"],
-      path: ["/danh-sach-ot"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/listOT"),
+        loader: () => import("site/admin/containers/types"),
         loading: Loading,
       }),
     },
     {
       roles: [],
-      path: ["/de-xuat-nghi-phep"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/offer-leave"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR"],
-      path: ["/danh-sach-hop-dong"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/contract"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR"],
-      path: ["/loai-hop-dong"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/contractType"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR"],
-      path: [
-        "/danh-sach-hop-dong/them-moi",
-        "/danh-sach-hop-dong/chinh-sua/:id",
-      ],
-      component: Loadable({
-        loader: () => import("site/admin/containers/contract/create"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR"],
-      path: ["/nguon-tuyen-dung"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/recruitment-sources"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR"],
-      path: ["/nguon-tuyen-dung/them-moi", "/nguon-tuyen-dung/chinh-sua/:id"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/recruitment-sources/create"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR"],
-      path: ["/tin-tuc"],
+      path: ["/admin/danh-sach-bai-viet"],
       component: Loadable({
         loader: () => import("site/admin/containers/news"),
         loading: Loading,
@@ -200,48 +56,16 @@ const Admin = (props) => {
     },
     {
       roles: [],
-      path: ["/de-xuat-ot"],
+      path: ["/admin/bai-viet/them-moi","/admin/bai-viet/chinh-sua/:id"],
       component: Loadable({
-        loader: () => import("site/admin/containers/offer-ot"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR"],
-      path: ["/lich-phong-van"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/interview"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR", "ROLE_Manager"],
-      path: ["/danh-sach-quyen"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/permission"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR", "ROLE_Manager"],
-      path: ["/danh-sach-vai-tro"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/role"),
-        loading: Loading,
-      }),
-    },
-    {
-      roles: ["ROLE_HR"],
-      path: ["/lich-di-lam"],
-      component: Loadable({
-        loader: () => import("site/admin/containers/work"),
+        loader: () => import("site/admin/containers/news/create"),
         loading: Loading,
       }),
     },
   ];
-  if (!props.auth || !props.auth.id) {
+  if (!props.auth || !props.auth.token) {
     localStorage.clear();
-    props.history.push("/login");
+    history.push("/admin/login");
     return null;
   }
   return (

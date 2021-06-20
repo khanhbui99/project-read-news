@@ -1,375 +1,339 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { AdminPage, Panel } from "site/admin/components/admin";
-import { Table, SelectSize, Pagination } from "site/admin/components/common";
-import { Button, DatePicker, Form, Input, Tooltip } from "antd";
-import ListImage from "site/admin/components/device/ListImage";
+import {
+  Table,
+  SelectSize,
+  Pagination,
+  FilterSelect,
+} from "site/admin/components/common";
+import { Button, Tooltip, DatePicker } from "antd";
+import { connect } from "react-redux";
 import moment from "moment";
-import "./style.scss";
-const { TextArea } = Input;
+import "./style.scss"
 
-function News(props) {
-  const {
-    listNews,
-    loadNews,
-    updateData,
-    page,
-    size,
-    total,
-    tieuDe,
-    ngayCongBo,
-    noiDung,
-    id,
-    dinhKem,
-    deleteItem,
-    createOrEdit,
-    onPageChange,
-    onReset,
-    checkValidate,
-    requestTimeout,
-    ngayHoatDong,
-    ten,
-  } = props;
+const News = ({
+  allNew,
+  getMenuBar,
+  getNewPost,
+  nameMenu,
+  history,
+  onDelete
+}) => {
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(10);
+  const [showDataFollowPage, setDataFollowPage] = useState([]);
+  const [isLoadData, setLoading] = useState(true);
+
+
   useEffect(() => {
-    onReset();
-    loadNews();
+    getMenuBar();
+    getNewPost()
   }, []);
-  let data = listNews.map((item, index) => {
+
+  useEffect(() => {
+
+    if (allNew.length) {
+      setLoading(true)
+
+      setDataFollowPage([])
+      allNew.sort(function (a, b) {
+        return new Date(b.created_at) - new Date(a.created_at);
+      });
+
+
+
+      let arr = []
+      allNew.map((item, ind) => {
+        if (ind >= ((page - 1) * size) && ind < (page * size)) {
+          arr.push(item)
+        }
+
+      })
+      setDataFollowPage([...arr]);
+      setLoading(false)
+
+    }
+
+  }, [page, allNew, size])
+
+  let listData = showDataFollowPage.map((item, index) => {
     return {
-      key: item.id,
+      key: index,
       col1: (page - 1) * size + index + 1,
-      col2: item.tieuDe,
-      col3: item.noiDung,
-      col4: item.ngayCongBo && moment(item.ngayCongBo).format("DD/MM/YYYY"),
-      col5: item,
+      col2: item.image || "",
+      col3: item.title || "",
+      col4: nameMenu[item.loai_tin_id || 0] || "",
+      col5: item.short_content || "",
+      col6: (item || {}).author || "",
+      col7:
+        item.created_at &&
+        moment(item.created_at).format("DD/MM/YYYY"),
+      col8: item.view || 0,
+      col9: item,
     };
   });
   const editItem = (item) => {
-    updateData({
-      id: item.id,
-      tieuDe: item.tieuDe,
-      noiDung: item.noiDung,
-      dinhKem: item.dinhKem,
-      ngayCongBo: item.ngayCongBo,
+    history.push({
+      pathname: `/admin/bai-viet/chinh-sua/${item.id}`
     });
   };
-  const onDeleteItem = (item) => {
-    deleteItem(item);
-  };
-  const onChangeImage = (e) => {
-    updateData({
-      dinhKem: e,
+  const addItem = () => {
+    history.push({
+      pathname: `/admin/bai-viet/them-moi`,
+      state: {
+        nameMenu,
+        // listSpecialize: listSpecialize,
+      },
     });
-  };
-  const onCancel = () => {
-    onReset();
-  };
-  const createOrEditItem = () => {
-    if (tieuDe && noiDung && ngayCongBo && dinhKem) {
-      updateData({
-        checkValidate: false,
-      });
-      let payload = {
-        id,
-        param: {
-          tieuDe,
-          noiDung,
-          ngayCongBo: ngayCongBo && ngayCongBo._d,
-          dinhKem,
-        },
-      };
-      createOrEdit(payload).then((s) => {
-        onReset();
-      });
-    } else {
-      updateData({
-        checkValidate: true,
-      });
-      return;
-    }
-  };
-  const onSizeChange = (size) => {
-    props.onSizeChange(size);
   };
   const onSearch = (e, item) => {
-    updateData({
-      [item]: e,
-      page: 1,
-    });
-    if (requestTimeout) {
-      try {
-        clearTimeout(requestTimeout);
-      } catch (error) {}
-    }
-    let data = setTimeout(() => loadNews(), 500);
-    updateData({
-      requestTimeout: data,
-    });
+    // updateData({
+    //   [item]: e,
+    //   page: 1,
+    //   size: 10,
+    // });
+    // if (requestTimeout) {
+    //   try {
+    //     clearTimeout(requestTimeout);
+    //   } catch (error) { }
+    // }
+    // let data = setTimeout(() => loadEmployee(1), 500);
+    // updateData({
+    //   requestTimeout: data,
+    // });
   };
   return (
-    <>
-      <AdminPage
-        header="Quản lý tin tức"
-        subheader="Quản lý tin tức"
-        icon="subheader-icon fal fa-window"
+    <AdminPage
+      icon="subheader-icon fal fa-window"
+      header="Danh sách bài viết"
+      subheader="Danh sách bài viết"
+    >
+      <Panel
+        id="panel-list-site"
+        title="Danh sách bài viết"
+        icon={[<i className="fal fa-newspaper"></i>]}
+        toolbar={
+          <div className="toolbar">
+            <Button className="button" onClick={() => addItem()}>
+              Thêm mới
+            </Button>
+          </div>
+        }
       >
-        <div className="row dm-news">
-          <div className="col-8">
-            <Panel
-              title="Danh sách tin tức"
-              allowClose={false}
-              allowFullScreen={false}
-              icon={[<i className="fal fa-newspaper"></i>]}
-            >
-              <Table
-                className="custom"
-                scroll={{ x: 800, y: 500 }}
-                style={{ marginLeft: -10, marginRight: -10 }}
-                columns={[
-                  {
-                    title: (
-                      <div className="custome-header">
-                        <div className="title-box">STT</div>
-                        <div className="addition-box"></div>
-                      </div>
-                    ),
-                    align: "center",
-                    width: 50,
-                    key: "col1",
-                    dataIndex: "col1",
-                  },
-                  {
-                    title: (
-                      <div className="custome-header">
-                        <div className="title-box">Tiêu đề</div>
-                        <div className="addition-box">
-                          <div className="search-box">
-                            <img
-                              src={require("resources/images/icon/ic_search.png")}
-                              alt=""
-                            />
-                            <input
-                              placeholder="Tìm theo tiêu đề"
-                              onChange={(e) => {
-                                onSearch(e.target.value, "ten");
-                              }}
-                              value={ten}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ),
-                    width: 200,
-                    dataIndex: "col2",
-                    key: "col2",
-                  },
-                  {
-                    title: (
-                      <div className="custome-header">
-                        <div className="title-box">Nội dung</div>
-                        <div className="addition-box"></div>
-                      </div>
-                    ),
-                    width: 250,
-                    dataIndex: "col3",
-                    key: "col3",
-                    render: (item) => {
-                      return <div className="text-over-hidden">{item}</div>
-                    }
-                  },
-                  {
-                    title: (
-                      <div className="custome-header">
-                        <div className="title-box">Ngày hoạt động</div>
-                        <div className="addition-box">
-                          <DatePicker
-                            placeholder="Ngày hoạt động"
-                            onChange={(e) => {
-                              onSearch(e, "ngayHoatDong");
-                            }}
-                            format={"DD/MM/YYYY"}
-                            value={ngayHoatDong && moment(ngayHoatDong)}
-                          />
-                        </div>
-                      </div>
-                    ),
-                    width: 150,
-                    dataIndex: "col4",
-                    key: "col4",
-                  },
-                  {
-                    title: (
-                      <div className="custome-header">
-                        <div className="title-box">Tiện ích</div>
-                        <div className="addition-box"></div>
-                      </div>
-                    ),
-                    width: 120,
-                    key: "col5",
-                    dataIndex: "col5",
-                    fixed: "right",
-                    render: (item) => {
-                      return (
-                        <div className="col-action">
-                          <Tooltip placement="topLeft" title="Sửa">
-                            <button
-                              className="btn btn-info btn-icon waves-effect waves-themed btn-edit"
-                              onClick={() => editItem(item)}
-                            >
-                              <i className="fal fa-edit"></i>
-                            </button>
-                          </Tooltip>
-                          <Tooltip placement="topLeft" title="Xóa">
-                            <button
-                              className="btn btn-info btn-icon waves-effect waves-themed btn-delete"
-                              onClick={() => {
-                                onDeleteItem(item);
-                              }}
-                            >
-                              <i className="fal fa-trash-alt"></i>
-                            </button>
-                          </Tooltip>
-                        </div>
-                      );
-                    },
-                  },
-                ]}
-                dataSource={data}
-              />
-              <div className="footer">
-                <SelectSize value={size} selectItem={onSizeChange} />
-                <Pagination
-                  onPageChange={(e) => onPageChange(e)}
-                  page={page}
-                  size={size}
-                  total={total}
-                  style={{ flex: 1, justifyContent: "flex-end" }}
-                />
-              </div>
-            </Panel>
-          </div>
-          <div className="col-4">
-            <Panel
-              title={id ? "Cập nhật" : "Thêm mới"}
-              allowClose={false}
-              allowFullScreen={false}
-              icon={[<i className="fal fa-newspaper"></i>]}
-            >
-              <Form layout="vertical">
-                <Form.Item>
-                  <ListImage
-                    uploadImage={(e) => onChangeImage(e)}
-                    files={dinhKem}
-                    provider="news"
+        <Table
+          loading={isLoadData}
+          scroll={{ x: 800, y: 500 }}
+          style={{ marginLeft: -10, marginRight: -10 }}
+          className="custom"
+          columns={[
+            {
+              title: (
+                <div className="custome-header">
+                  <div className="title-box">STT</div>
+                  <div className="addition-box"></div>
+                </div>
+              ),
+              width: 70,
+              dataIndex: "col1",
+              key: "col1",
+              align: "center",
+            },
+            {
+              title: (
+                <div className="custome-header">
+                  <div className="title-box">Ảnh</div>
+                  <div className="addition-box"></div>
+                </div>
+              ),
+              width: 150,
+              dataIndex: "col2",
+              key: "col2",
+              align: "center",
+              render: (item) => {
+                return item ? (
+                  <img
+                    src={item.absoluteFileUrl()}
+                    alt=" "
+                    style={{ maxWidth: 85 }}
                   />
-                  {checkValidate && !dinhKem ? (
-                    <div className="error">Vui lòng chọn ảnh đính kèm</div>
-                  ) : null}
-                </Form.Item>
-                <Form.Item label="Tiêu đề tin tức">
-                  <Input
-                    placeholder="Nhập tiêu đề tin tức"
-                    value={tieuDe}
-                    onChange={(e) => {
-                      updateData({ tieuDe: e.target.value });
-                    }}
+                ) : (
+                  <img
+                    src={require("resources/images/nhanvien/anhdaidien.png")}
+                    alt=" "
                   />
-                  {checkValidate && !tieuDe ? (
-                    <div className="error">Vui lòng nhập tiêu đề</div>
-                  ) : null}
-                </Form.Item>
-                <Form.Item label="Nội dung tin tức">
-                  <TextArea
-                    placeholder="Nhập nội dung tin tức"
-                    rows={7}
-                    value={noiDung}
-                    onChange={(e) => {
-                      updateData({ noiDung: e.target.value });
-                    }}
-                  />
-                  {checkValidate && !noiDung ? (
-                    <div className="error">Vui lòng nhập nội dung</div>
-                  ) : null}
-                </Form.Item>
-                <Form.Item label="Ngày hoạt động">
-                  <DatePicker
-                    placeholder="Ngày hoạt động"
-                    value={ngayCongBo}
-                    onChange={(e) => {
-                      updateData({ ngayCongBo: e });
-                    }}
-                    format={"DD/MM/YYYY"}
-                  />
-                  {checkValidate && !ngayCongBo ? (
-                    <div className="error">Vui lòng chọn ngày hoạt động</div>
-                  ) : null}
-                </Form.Item>
-              </Form>
-              <div className="submit-button button-footer-panel">
-                <Button onClick={onCancel}>Hủy</Button>
-                <Button type="primary" onClick={createOrEditItem}>
-                  {id ? "Cập nhật" : "Thêm mới"}
-                </Button>
-              </div>
-            </Panel>
-          </div>
+                );
+              },
+            },
+            {
+              title: (
+                <div className="custome-header">
+                  <div className="title-box">Tiêu đề</div>
+                  <div className="addition-box">
+                    <div className="search-box">
+                      <img src={require("resources/images/icon/ic_search.png")} alt="" />
+                      <input
+                        // value={hoVaTenSearch}
+                        onChange={(e) => {
+                          onSearch(e.target.value, "hoVaTenSearch");
+                        }}
+                        placeholder="Tìm theo tiêu đề"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ),
+              width: 200,
+              dataIndex: "col3",
+              key: "col3",
+            },
+            {
+              title: (
+                <div className="custome-header">
+                  <div className="title-box">Thể loại</div>
+                  <div className="addition-box"></div>
+                </div>
+              ),
+              width: 200,
+              dataIndex: "col4",
+              key: "col4",
+              align: "center",
+            },
+            {
+              title: (
+                <div className="custome-header">
+                  <div className="title-box">Mô tả</div>
+                  <div className="addition-box"></div>
+                </div>
+              ),
+              width: 300,
+              dataIndex: "col5",
+              key: "col5",
+              render: (item) => {
+                return (
+                  <div className="line-clamp-4">
+                    {item}
+                  </div>
+                );
+              },
+            },
+            {
+              title: (
+                <div className="custome-header">
+                  <div className="title-box">Tác giả</div>
+                  <div className="addition-box"></div>
+                </div>
+              ),
+              width: 200,
+              dataIndex: "col6",
+              align: "center",
+              key: "col6",
+            },
+            {
+              title: (
+                <div className="custome-header">
+                  <div className="title-box">Ngày viết</div>
+                  <div className="addition-box"></div>
+                </div>
+              ),
+              width: 200,
+              dataIndex: "col7",
+              key: "col7",
+              align: "center",
+            },
+            {
+              title: (
+                <div className="custome-header">
+                  <div className="title-box">Lượt đọc</div>
+                  <div className="addition-box"></div>
+                </div>
+              ),
+              width: 200,
+              dataIndex: "col8",
+              key: "col8",
+              align: "center",
+            },
+            {
+              title: (
+                <div className="custome-header">
+                  <div className="title-box">Tiện ích</div>
+                  <div className="addition-box"></div>
+                </div>
+              ),
+              width: 170,
+              dataIndex: "col9",
+              key: "col9",
+              align: "center",
+              fixed: "right",
+              render: (item) => {
+                return (
+                  <div className="col-action">
+                    <Tooltip placement="topLeft" title={"Sửa"}>
+                      <div>
+                        <button
+                          className="btn btn-info btn-icon waves-effect waves-themed btn-edit"
+                          onClick={() => editItem(item)}
+                        >
+                          <i className="fal fa-edit"></i>
+                        </button>
+                      </div>
+                    </Tooltip>
+                    <Tooltip placement="topLeft" title={"Xóa"}>
+                      <div>
+                        <button
+                          className="btn btn-info btn-icon waves-effect waves-themed btn-delete"
+                          onClick={() => {
+                            onDelete(item);
+                          }}
+                        >
+                          <i className="fal fa-trash-alt"></i>
+                        </button>
+                      </div>
+                    </Tooltip>
+                  </div>
+                );
+              },
+            },
+          ]}
+          dataSource={listData}
+        ></Table>
+        <div className="footer">
+          <SelectSize value={size} selectItem={val => setSize(val)} />
+          <Pagination
+            onPageChange={val => setPage(val)}
+            page={page}
+            size={size}
+            total={allNew.length}
+            style={{ flex: 1, justifyContent: "flex-end" }}
+          />
         </div>
-      </AdminPage>
-    </>
+      </Panel>
+      {/* {modalAssignProject && <ModalAssignProject />} */}
+    </AdminPage>
   );
 }
-
-const mapStateToProps = (state) => {
-  const {
-    news: {
-      listNews,
-      page,
-      size,
-      total,
-      tieuDe,
-      ngayCongBo,
-      noiDung,
-      id,
-      dinhKem,
-      checkValidate,
-      requestTimeout,
-      ten,
-      ngayHoatDong,
-    },
-  } = state;
-  return {
-    listNews,
-    page: page || 1,
-    size: size || 10,
-    total,
-    tieuDe,
-    ngayCongBo: ngayCongBo && moment(ngayCongBo),
-    noiDung,
-    id,
-    dinhKem,
-    checkValidate,
-    requestTimeout,
-    ten,
-    ngayHoatDong,
-  };
-};
-const mapDispatchToProps = ({
-  news: {
-    updateData,
-    loadNews,
-    createOrEdit,
-    deleteItem,
-    onSizeChange,
-    onPageChange,
-    onReset,
+export default connect(
+  (state) => {
+    const {
+      allNews: {
+        allNew = [],
+      },
+      menu: {
+        nameMenu = []
+      }
+    } = state;
+    return {
+      allNew,
+      nameMenu
+    };
   },
-}) => ({
-  updateData,
-  loadNews,
-  createOrEdit,
-  deleteItem,
-  onSizeChange,
-  onPageChange,
-  onReset,
-});
-export default connect(mapStateToProps, mapDispatchToProps)(News);
+
+  ({
+    allNews: { getMenuBar, getNewPost, onDelete },
+  }) => {
+    return {
+      getMenuBar,
+      getNewPost,
+      onDelete
+    };
+  }
+)(News);

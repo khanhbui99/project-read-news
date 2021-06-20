@@ -3,13 +3,7 @@ import clientUtils from "utils/client-utils";
 
 export default {
   upload(image, item) {
-    let url = "";
-    if (item === "employee") {
-      url += constants.api.dmNhanvien + "/anh-dai-dien";
-    }
-    if (item === "news") {
-      url += constants.api.adTinTuc + "/anh";
-    }
+    let url = "api/upload-images";
 
     return new Promise((resolve, reject) => {
       clientUtils

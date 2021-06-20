@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Upload, Modal } from "antd";
+import snackbar from "utils/snackbar-utils";
 import { Icon } from "antd";
 import fileProvider from "data-access/file-provider";
 function getBase64(file) {
@@ -27,13 +28,13 @@ export default (props) => {
   useEffect(() => {
     files.current = props.files
       ? [
-          {
-            status: "done",
-            uid: "-1",
-            name: "ảnh",
-            url: props.files,
-          },
-        ]
+        {
+          status: "done",
+          uid: "-1",
+          name: "ảnh",
+          url: props.files,
+        },
+      ]
       : [];
     setState({
       fileList: files.current,
@@ -53,7 +54,7 @@ export default (props) => {
     });
   };
 
-  const handleChange = ({ fileList }) => {};
+  const handleChange = ({ fileList }) => { };
 
   const { previewVisible, previewImage, fileList } = state;
   const uploadButton = (
@@ -93,34 +94,43 @@ export default (props) => {
           setState({
             fileList: files.current,
           });
+          
           fileProvider
             .upload(file, props.provider)
             .then((s) => {
-              var x = files.current.find((item) => item.uid === file.uid);
-              if (x) {
-                if (s && s.data.code === 0 && s.data.data.length) {
-                  props.uploadImage(s.data.data);
-                  let url = s.data.data;
-                  x.status = "done";
-                  x.url = url;
-                } else {
-                  x.status = "error";
-                }
+              const { success = false, message = "" } = s.data
+
+              if (success) {
+                files.current = [
+                  {
+                    status: "done",
+                    uid: "-1",
+                    name: "ảnh",
+                    url: (s.data || {}).data[0],
+                  },
+                ]
+                props.uploadImage((s.data || {}).data[0]);
                 setState({
                   fileList: files.current,
                   hasChange: true,
                 });
+              } else {
+                snackbar.show(message, "danger");
               }
+
+              // var x = files.current.find((item) => item.uid === file.uid);
+              // if (x) {
+              //   if (s && s.data.code === 0 && s.data.data.length) {
+              //     props.uploadImage(s.data.data);
+              //     let url = s.data.data;
+              //     x.status = "done";
+              //     x.url = url;
+              //   } else {
+              //     x.status = "error";
+              //   }
+
+              // }
             })
-            .catch((e) => {
-              var x = files.current.find((item) => item.uid === file.uid);
-              if (x) {
-                x.status = "error";
-                setState({
-                  fileList: files.current,
-                });
-              }
-            });
         }}
         accept=".png,.gif,.jpg"
       >
