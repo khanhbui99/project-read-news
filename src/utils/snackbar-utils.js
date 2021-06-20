@@ -18,7 +18,7 @@ export default {
         _type = type;
         break;
     }
-    this.showWithTitle("iSofH Hrm", message, _type, duration);
+    this.showWithTitle("Nhóm 1 - UTT", message, _type, duration);
 
     // Toast.show({
     //     text: message,

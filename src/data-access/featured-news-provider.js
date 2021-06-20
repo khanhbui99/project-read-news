@@ -39,7 +39,7 @@ export default {
     },
     resetCovid19() {
 
-        return client.requestApi("post", "/api/covid", {});
+        return client.requestApi("post", "api/covid", {});
     }
 
 };

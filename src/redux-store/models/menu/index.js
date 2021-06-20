@@ -53,6 +53,7 @@ export default {
           const { success = false, message = "" } = res || {};
           if (success) {
             dispatch.menu.getMenuBar();
+            resolve(true)
             snackbar.show(message || "Thay đổi thành công", "success");
           } else {
             snackbar.show(message, "danger");
@@ -63,6 +64,7 @@ export default {
           const { success = false, message = "" } = res || {};
           if (success) {
             dispatch.menu.getMenuBar();
+            resolve(true)
             snackbar.show(message || "Tạo mới thành công", "success");
           } else {
             snackbar.show(message, "danger");

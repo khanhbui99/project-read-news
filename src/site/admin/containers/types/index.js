@@ -54,13 +54,17 @@ const OfferLeave = ({
     };
   });
   const onCreateOrUpdate = () => {
-    if (!item.name || item.length <= 3) {
+    if (!item.name || item.name.length <= 3) {
       setCheckValidate(true)
       return
     }
 
     createOrEdit({
       ...item
+    }).then(s=>{
+      if(s) {
+        setItem({})
+      }
     })
 
   };
@@ -201,7 +205,7 @@ const OfferLeave = ({
                   value={item.name}
                   placeholder="Nhập tên"
                 />
-                {checkValidate && (!item.name || item.length <= 3) ? (
+                {checkValidate && (!item.name || item.name.length <= 3) ? (
                   <div className="error">Vui lòng nhập tên (lớn hơn 3 ký tự)!</div>
                 ) : null}
               </Form.Item>

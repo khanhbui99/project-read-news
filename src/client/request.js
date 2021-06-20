@@ -14,12 +14,12 @@ export const HOST = (() => {
   return window.location.host === REACT_APP_URL // test
     ? process.env.REACT_APP_HOST
     : window.location.host === REACT_APP_URL_PRODUCTION //production
-    ? process.env.REACT_APP_HOST_PRODUCTION
-    : window.location.host === REACT_APP_URL_DOMAIN //production
-    ? process.env.REACT_APP_HOST_DOMAIN
-    : window.location.host === REACT_APP_URL_PUBLIC //production public
-    ? process.env.REACT_APP_HOST_PUBLIC
-    : process.env.REACT_APP_HOST;
+      ? process.env.REACT_APP_HOST_PRODUCTION
+      : window.location.host === REACT_APP_URL_DOMAIN //production
+        ? process.env.REACT_APP_HOST_DOMAIN
+        : window.location.host === REACT_APP_URL_PUBLIC //production public
+          ? process.env.REACT_APP_HOST_PUBLIC
+          : process.env.REACT_APP_HOST;
 })();
 
 const getRedirect = () => {
@@ -79,21 +79,19 @@ client.interceptors.request.use(async (config) => {
 client.interceptors.response.use(
   (response) => {
     if (response.data.code === 401) {
-      window.location.href =
-        "/logout?redirect=" + encodeURIComponent(accountUrl);
+      window.location.href = "/admin/logout?redirect=";
       return Promise.reject();
     }
     return response;
   },
   (error) => {
     if (error?.response?.status === 401) {
-      window.location.href =
-        "/logout?redirect=" + encodeURIComponent(accountUrl);
+      window.location.href = "/admin/logout";
     } else {
       try {
         if (error?.response?.data?.message)
           error.message = error.response.data.message;
-      } catch (error) {}
+      } catch (error) { }
     }
     return Promise.reject(error);
   }

@@ -1291,7 +1291,7 @@ const Header = (props) => {
               onClick={() => {
                 localStorage.clear();
                 props.onLogout();
-                window.location.href = "/login";
+                window.location.href = "/admin/login";
               }}
               className="dropdown-item fw-500 pt-3 pb-3"
             >

@@ -28,7 +28,7 @@ const ContentMain = ({
                         <div className="group-not-home" >
                             <h4>{item.title || ''}</h4>
                             <span className=" line-clamp-4">
-                                {item.content || ''}
+                                {item.short_content || ''}
                             </span><br />
                             <span
                                 className="f-14 author mb-5"
@@ -44,9 +44,9 @@ const ContentMain = ({
                     }
                 </div>
                 {
-                    isHome && item.content && <>
+                    isHome && item.short_content && <>
                         <span className="text-justify line-clamp-4 ">
-                            {item.content || ''}
+                            {item.short_content || ''}
                         </span><br />
                         <span
                             className="f-14 author mb-5"

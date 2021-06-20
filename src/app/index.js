@@ -34,25 +34,23 @@ const App = (props) => {
     props.checkRole();
     props.getMenuBar();
   }, []);
-  // const reportWindowSize = () => {
-  //   props.updateApplication({
-  //     width: window.innerWidth,
-  //   });
-  // };
-  // const logout = connect(null, ({ auth: { updateData } }) => ({ updateData }))(
-  //   (props) => {
-  //     props.updateData({
-  //       auth: null,
-  //     });
-  //     localStorage.removeItem("auth");
-  //     setTimeout(() => {
-  //       const queryString = window.location.search;
-  //       const urlParams = new URLSearchParams(queryString);
-  //       window.location.href = urlParams.get("redirect") || "/";
-  //     }, 2000);
-  //     return null;
-  //   }
-  // );
+  const reportWindowSize = () => {
+    props.updateApplication({
+      width: window.innerWidth,
+    });
+  };
+  const logout = connect(null, ({ auth: { updateData } }) => ({ updateData }))(
+    (props) => {
+      props.updateData({
+        auth: null,
+      });
+      localStorage.removeItem("auth");
+      setTimeout(() => {
+        window.location.href = "/admin/login";
+      }, 2000);
+      return null;
+    }
+  );
   String.prototype.uintTextBox = function () {
     var re = /^\d*$/;
     return re.test(this);
@@ -66,10 +64,10 @@ const App = (props) => {
     //   path: ["/noiquy"],
     //   component: NoiQuy,
     // },
-    // {
-    //   path: ["/logout"],
-    //   component: logout,
-    // }
+    {
+      path: ["/admin/logout"],
+      component: logout,
+    },
     {
       path: ["/admin/:id"],
       component: Admin,

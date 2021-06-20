@@ -71,7 +71,7 @@ const Covid19 = ({
         allowClose={false}
       >
         <div className="toolbar" style={{ marginBottom: '1rem', marginTop: '3rem', textAlign: "right" }}>
-          <Button type="primary" danger onClick={() => {
+          <Button type="primary" onClick={() => {
             setLoading(true)
             setDataFollowPage([])
             onResetCovid19();

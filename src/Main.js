@@ -34,7 +34,7 @@ String.prototype.uintTextBox = function () {
 function App(props) {
   const routers = [
     {
-      path: ["/login"],
+      path: ["/admin/login"],
       component: Auth,
     },
     {
@@ -52,7 +52,7 @@ function App(props) {
         }
       )((props) => {
         props.onLogout();
-        window.location.href = "/login";
+        window.location.href = "/admin/login";
         return <div></div>;
       }),
     },
