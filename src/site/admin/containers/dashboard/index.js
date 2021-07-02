@@ -29,7 +29,7 @@ const Covid19 = ({
     return (
         <AdminPage>
             <Panel>
-                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', height: '80vh', justifyContent: 'space-between' }}>
                     <div className="container-item" >
                         <div className="content">
                             <div className="top">
