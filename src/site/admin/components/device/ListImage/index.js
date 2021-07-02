@@ -94,7 +94,7 @@ export default (props) => {
           setState({
             fileList: files.current,
           });
-          
+          props.uploadImage(true)
           fileProvider
             .upload(file, props.provider)
             .then((s) => {

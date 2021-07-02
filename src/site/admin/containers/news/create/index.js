@@ -6,6 +6,7 @@ import ListImage from "site/admin/components/device/ListImage";
 import EditorText from "site/admin/components/EditorText";
 import FilterSelect from "site/admin/components/common/filterSelect";
 import "../style.scss";
+import snackbar from "utils/snackbar-utils";
 
 const CreteOrEditNew = ({
   createOrEdit,
@@ -24,8 +25,11 @@ const CreteOrEditNew = ({
   const [highlight, setHighlight] = useState("0")
   const [image, setImage] = useState("")
   const [author, setAuthor] = useState("")
-  const [loai_tin_id, setLoai_tin_id] = useState("")
+  const [loai_tin_id, setLoai_tin_id] = useState(0)
   const [short_content, setShort_content] = useState("")
+  const [isUpload, setIsUpload] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [optionType, setOptionType] = useState([])
 
   useEffect(() => {
     onResetData();
@@ -37,9 +41,18 @@ const CreteOrEditNew = ({
 
   useEffect(() => {
 
+    if ((menuBar || []).length) {
+      const option = menuBar.filter(item => item.id !== 0)
+      setOptionType(option)
+    }
+
+  }, [menuBar]);
+
+  useEffect(() => {
+
     if (itemActive.id && id) {
       setShort_content(itemActive.short_content || "")
-      setLoai_tin_id(itemActive.loai_tin_id || "")
+      setLoai_tin_id(itemActive.loai_tin_id || 0)
       setAuthor(itemActive.author || "")
       setImage(itemActive.image || "")
       setHighlight(itemActive.highlight || "0")
@@ -51,17 +64,19 @@ const CreteOrEditNew = ({
 
   const onResetData = () => {
     setShort_content("")
-    setLoai_tin_id("")
+    setLoai_tin_id(0)
     setAuthor("")
     setImage("")
     setHighlight("0")
     setContent("")
     setTitle("")
+    setIsUpload(false)
+    setLoading(false)
   }
   const onClose = () => {
     history.push("/admin/danh-sach-bai-viet");
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     const body = {
       title,
       image,
@@ -73,18 +88,36 @@ const CreteOrEditNew = ({
     }
 
     const val = id ? { ...itemActive } : {};
-    createOrEdit({
+
+    if (!loai_tin_id) {
+      snackbar.show(`Vui lòng kiểm tra và nhập đầy đủ các trường có dấu (*) để ${id ? 'thay đổi' : 'thêm mới'} dữ liệu`, "danger");
+      return
+    }
+
+    if (!((image || '').length)) {
+      snackbar.show(isUpload ? 'Hình ảnh đang upload vui lòng chờ!' : `Vui lòng chọn hình ảnh để ${id ? 'thay đổi' : 'thêm mới'}`, "danger");
+      return;
+    }
+
+    setLoading(true)
+    await createOrEdit({
       ...val,
       ...body,
     }).then((s) => {
       if (s) {
+        setLoading(false)
+
         setTimeout(() => {
           onClose()
-        }, 300)
+        }, 500)
         return;
       }
       return
     });
+    setTimeout(() => {
+      setLoading(false)
+    }, 500)
+    
   };
   return (
     <AdminPage className="mgr-user-create">
@@ -130,6 +163,7 @@ const CreteOrEditNew = ({
               <Form.Item label="Ảnh (*): ">
                 <ListImage
                   uploadImage={(e) => {
+                    if (e == true) return setIsUpload(true)
                     setImage(e)
                   }}
                   files={image}
@@ -142,9 +176,6 @@ const CreteOrEditNew = ({
               <Form.Item label="Nội dung (*): " style={{ width: '100%' }}>
                 <EditorText content={content} handleChange={e => setContent(e)} />
               </Form.Item>
-              {/* {checkValidate && !item.content ? (
-                <div className="error">Vui lòng nhập nội dung!</div>
-              ) : null} */}
             </div>
             <div className="col-md-6 col-12">
               <Form.Item label="Thể loại (*):">
@@ -152,7 +183,7 @@ const CreteOrEditNew = ({
                   onChange={(e) => setLoai_tin_id(e)}
                   placeholder="Chọn thể loại"
                   value={nameMenu[loai_tin_id]}
-                  listData={(menuBar || []).map(item => {
+                  listData={optionType.map(item => {
                     return {
                       ...item,
                       ten: item.name
@@ -160,9 +191,6 @@ const CreteOrEditNew = ({
                   })}
                 />
               </Form.Item>
-              {/* {checkValidate && !item.loai_tin_id ? (
-                <div className="error">Vui lòng nhập thể loại bài viết!</div>
-              ) : null} */}
             </div>
             <div className="col-md-6 col-12">
               <Form.Item label="Nổi bật (*):">
@@ -170,8 +198,8 @@ const CreteOrEditNew = ({
                   onChange={(e) =>
                     setHighlight(e)
                   }
-                  value={Number(highlight) == 0 ? "false" : "true"}
-                  listData={[{ id: "0", ten: 'false' }, { id: "1", ten: 'true' }]}
+                  value={Number(highlight) == 0 ? "Không" : "Có"}
+                  listData={[{ id: "0", ten: 'Không' }, { id: "1", ten: 'Có' }]}
                 />
               </Form.Item>
             </div>
@@ -185,9 +213,6 @@ const CreteOrEditNew = ({
                   placeholder="Nhập tác giả"
                 />
               </Form.Item>
-              {/* {checkValidate && !item.author ? (
-                <div className="error">Vui lòng nhập tác giả bài viết!</div>
-              ) : null} */}
             </div>
           </div>
           <div className="button-footer-panel">
@@ -195,10 +220,11 @@ const CreteOrEditNew = ({
               onClick={onClose}
               style={{ marginRight: 8 }}
               className="btn btn-delete"
+              disabled={loading}
             >
               Hủy
             </Button>
-            <Button type="primary" htmlType="submit" onClick={handleSubmit}>
+            <Button type="primary" htmlType="submit" onClick={handleSubmit} loading={loading} disabled={loading}>
               {id ? "Lưu thay đổi" : "Tạo mới"}
             </Button>
           </div>

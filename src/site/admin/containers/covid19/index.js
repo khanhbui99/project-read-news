@@ -16,6 +16,7 @@ const Covid19 = ({
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
   const [isLoadData, setLoading] = useState(true);
+  const [loadingBnt, setLoadingBnt] = useState(false);
 
   useEffect(() => {
     getCovid19()
@@ -71,12 +72,14 @@ const Covid19 = ({
         allowClose={false}
       >
         <div className="toolbar" style={{ marginBottom: '1rem', marginTop: '3rem', textAlign: "right" }}>
-          <Button type="primary" onClick={() => {
+          <Button type="primary" onClick={async () => {
+            setLoadingBnt(true)
             setLoading(true)
             setDataFollowPage([])
-            onResetCovid19();
+            await onResetCovid19();
             setLoading(false)
-          }} >
+            setLoadingBnt(false)
+          }} disabled={loadingBnt}>
             Cập nhập
           </Button>
         </div>

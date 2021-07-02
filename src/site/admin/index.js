@@ -22,14 +22,14 @@ const Admin = (props) => {
   const history = useHistory();
 
   const routers = [
-    // {
-    //   roles: [],
-    //   path: ["/admin"],
-    //   component: Loadable({
-    //     loader: () => import("site/admin/containers/home"),
-    //     loading: Loading,
-    //   }),
-    // },
+    {
+      roles: [],
+      path: ["/admin/Dashboard"],
+      component: Loadable({
+        loader: () => import("site/admin/containers/dashboard"),
+        loading: Loading,
+      }),
+    },
     {
       roles: [],
       path: ["/admin/covid-19"],

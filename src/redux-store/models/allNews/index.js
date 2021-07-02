@@ -11,7 +11,8 @@ export default {
     covid19: [],
     itemActive: {},
     dataKindOfNews: [],
-    searchData: []
+    searchData: [],
+    dateUpdateCovid: null
   },
 
   reducers: {
@@ -40,7 +41,7 @@ export default {
       let { data = [], success = false } = res || {};
 
       if (success) {
-
+        
         dispatch.allNews.updateData({
           newPost: data || [],
         });
