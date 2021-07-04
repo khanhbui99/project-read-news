@@ -19,7 +19,7 @@ const HeaderPage = () => {
                 <a href="/" className="logo">
                     <img src={require("resources/images/logo.png")} alt="iSofH" aria-roledescription="logo" />
                 </a>
-                <Search placeholder="input search text" allowClear onSearch={onSearch} className="search-input" />
+                <Search placeholder="Tìm kiếm bài viết..." allowClear onSearch={onSearch} className="search-input" />
             </div>
             <div style={{ background: '#3173b3c7' }} className="mb-3">
                 <div className="container-page">

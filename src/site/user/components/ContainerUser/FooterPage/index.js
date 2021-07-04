@@ -1,4 +1,6 @@
 import React from 'react'
+import Iframe from 'react-iframe'
+
 
 const dataFooter = [
     {
@@ -10,6 +12,12 @@ const dataFooter = [
         label: "THÀNH VIÊN",
         data: ["Nguyễn Tiến Anh", "Trịnh Lan Anh", 'Đỗ Ngọc Ánh', 'Nguyễn Đức Long', 'Bùi Duy Khánh']
     },
+    {
+        label: "ĐỊA CHỈ",
+        data: [],
+        align: "left"
+
+    }
 ]
 
 const FooterPage = () => {
@@ -21,14 +29,14 @@ const FooterPage = () => {
                     style={{ height: 50 }}
                 >
                     <span style={{ fontSize: '1.5rem' }}>
-                        Nhóm .......
+                        Nhóm 1
                     </span>
                     <span style={{ fontSize: '1.5rem' }}>
                         Website - Đọc Báo
                     </span>
                 </div>
             </div>
-            <div className="container-page flex mt-3">
+            <div className="container-page flex mt-3 justify-between">
                 {
                     dataFooter.map((item, index) => {
                         return (
@@ -47,11 +55,23 @@ const FooterPage = () => {
                                         margin: item.align ? 0 : 'auto'
                                     }}
                                 />
-                                <div className="mt-2">
-                                    {item.data.map((item2, index2) => {
-                                        return <p className="mt-1 mb-0" key={String(index2)}>{item2}</p>
-                                    })}
-                                </div>
+                                {index == 2 && (
+                                    <Iframe url="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1515.7892634419336!2d105.7972240786426!3d20.98447046065023!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135acc6c44959d5%3A0xd7edcdb815622dd1!2zNTQgUGjhu5EgVHJp4buBdSBLaMO6YywgVGhhbmggWHXDom4gTmFtLCBUaGFuaCBYdcOibiwgSMOgIE7hu5lpLCBWaeG7h3QgTmFt!5e1!3m2!1svi!2s!4v1625409985776!5m2!1svi!2s"
+                                        width="300x"
+                                        height="170px"
+                                        id="myId"
+                                        className="myClassname"
+                                        display="initial"
+                                        position="relative" />
+                                ) ||
+                                    (
+                                        <div className="mt-2">
+                                            {item.data.map((item2, index2) => {
+                                                return <p className="mt-1 mb-0" key={String(index2)}>{item2}</p>
+                                            })}
+                                        </div>
+                                    )}
+
                             </div>
                         )
                     })
