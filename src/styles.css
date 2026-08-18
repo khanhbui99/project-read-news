@@ -1,7 +1,0 @@
-body {
-  -webkit-print-color-adjust: exact;
-}
-
-img{
-  object-fit: cover !important;
-}
